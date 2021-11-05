@@ -24,15 +24,17 @@ function Login() {
   }
 
   function handleClick() {
-    setUser({ ...user, email });
     ToLocalStorage('mealsToken', 1, 'cocktailsToken', 1);
     ToLocalStorage('user', { email });
+    setUser({ ...user, email });
     setState({ ...state, login: true });
   }
 
   return (
     <main className="login">
+      { login && <Redirect to="/comidas" /> }
       <form className="login-form">
+        <h4>Login</h4>
         <DefaultInput
           type="text"
           id="email-input"
@@ -56,10 +58,9 @@ function Login() {
           disabled={ !validation() }
           onClick={ handleClick }
         >
-          Login
+          Submit
         </button>
       </form>
-      { login && <Redirect to="/comidas" /> }
     </main>
   );
 }
