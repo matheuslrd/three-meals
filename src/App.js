@@ -1,20 +1,23 @@
 import React from 'react';
+
 import './App.css';
-import rockGlass from './images/rockGlass.svg';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { BrowserRouter } from 'react-router-dom';
+
+import Switcher from './Components/Switcher';
+import MyContextProvider from './Context/MyContext';
 
 function App() {
   return (
-    <div className="meals">
-      <span className="logo">TRYBE</span>
-      <object
-        className="rocksGlass"
-        type="image/svg+xml"
-        data={ rockGlass }
-      >
-        Glass
-      </object>
-    </div>
+    <BrowserRouter>
+      <MyContextProvider>
+        <div className="app">
+          <Switcher />
+        </div>
+      </MyContextProvider>
+    </BrowserRouter>
   );
 }
 
