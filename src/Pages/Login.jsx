@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import DefaultInput from '../Components/DefaultInput';
+import '../Styles/Login.css';
 import { MyContext } from '../Context/MyContext';
+import DefaultInput from '../Components/DefaultInput';
 import ToLocalStorage from '../helper/ToLocalStorage';
 
 function Login() {
@@ -30,7 +31,7 @@ function Login() {
   }
 
   return (
-    <main className="Login">
+    <main className="login">
       <form className="login-form">
         <DefaultInput
           type="text"
