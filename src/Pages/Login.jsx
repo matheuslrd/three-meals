@@ -6,7 +6,7 @@ import ToLocalStorage from '../helper/ToLocalStorage';
 
 function Login() {
   const RegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-  const length = 5;
+  const length = 6;
   const INITIAL_STATE = { email: '', password: '', login: false };
 
   const { user, setUser } = useContext(MyContext);
@@ -24,7 +24,7 @@ function Login() {
 
   function handleClick() {
     setUser({ ...user, email });
-    ToLocalStorage('mealsToken', 1, 'cocktailsToken', 2);
+    ToLocalStorage('mealsToken', 1, 'cocktailsToken', 1);
     ToLocalStorage('user', { email });
     setState({ ...state, login: true });
   }
