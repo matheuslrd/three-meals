@@ -1,9 +1,15 @@
 import React from 'react';
 
+import Header from '../Components/Header';
+
 function Profile() {
   return (
     <main className="Profile">
-      Profile
+      <Header
+        disabledSearch
+      >
+        Perfil
+      </Header>
     </main>
   );
 }

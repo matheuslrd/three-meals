@@ -1,9 +1,15 @@
 import React from 'react';
 
+import Header from '../Components/Header';
+
 function FoodExplorer() {
   return (
     <main className="FoodExplorer">
-      FoodExplorer
+      <Header
+        disabledSearch
+      >
+        Explorar Comidas
+      </Header>
     </main>
   );
 }
