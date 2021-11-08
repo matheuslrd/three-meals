@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 import Button from './Button';
 
@@ -8,6 +9,8 @@ import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
 function Header({ children, disabledSearch }) {
+  const [redirectProfile, setRedirectProfile] = useState(false);
+
   const btnSearch = (
     <section className="search-container">
       <Button
@@ -22,9 +25,12 @@ function Header({ children, disabledSearch }) {
 
   return (
     <div className="header">
+      { redirectProfile && <Redirect to="/perfil" /> }
+
       <section className="perfil-container">
         <Button
           dataTestId="profile-top-btn"
+          onClick={ () => setRedirectProfile(true) }
           src={ profileIcon }
         >
           <img src={ profileIcon } alt="Profile Icon" />
