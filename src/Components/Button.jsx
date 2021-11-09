@@ -23,7 +23,7 @@ Button.propTypes = {
   dataTestId: PropTypes.string,
   id: PropTypes.string,
   onClick: PropTypes.func,
-  src: PropTypes.string.isRequired,
+  src: PropTypes.string,
 };
 
 Button.defaultProps = {
@@ -31,6 +31,7 @@ Button.defaultProps = {
   className: null,
   dataTestId: null,
   onClick: () => {},
+  src: '',
 };
 
 export default Button;

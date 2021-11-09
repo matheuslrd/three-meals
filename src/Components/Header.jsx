@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
 import Button from './Button';
-import DefaultInput from './DefaultInput';
+import SearchBar from './SearchBar';
 
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
@@ -14,18 +14,6 @@ import '../Styles/Header.css';
 function Header({ children, disabledSearch }) {
   const [redirectProfile, setRedirectProfile] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
-
-  const searchBar = () => (
-    <section className="search-input">
-      <DefaultInput
-        id="search-input"
-        name="search-input"
-        onChange={ () => {} }
-        placeholder="Ex: Macarrão"
-        type="text"
-      />
-    </section>
-  );
 
   const btnSearch = () => (
     <section className="search-container">
@@ -63,7 +51,7 @@ function Header({ children, disabledSearch }) {
         { !disabledSearch && btnSearch() }
       </div>
 
-      { showSearchBar && searchBar() }
+      { showSearchBar && <SearchBar /> }
     </header>
   );
 }
