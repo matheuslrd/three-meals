@@ -2,14 +2,14 @@ import React from 'react';
 
 import Header from '../Components/Header';
 
-function AreaExplorer() {
+function MainRecipesDrinks() {
   return (
-    <main className="AreaExplorer">
+    <main className="MainRecipesDrinks">
       <Header>
-        Explorar Origem
+        Bebidas
       </Header>
     </main>
   );
 }
 
-export default AreaExplorer;
+export default MainRecipesDrinks;

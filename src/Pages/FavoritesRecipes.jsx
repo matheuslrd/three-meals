@@ -1,9 +1,15 @@
 import React from 'react';
 
+import Header from '../Components/Header';
+
 function FavoritesRecipes() {
   return (
     <main className="FavoritesRecipes">
-      FavoritesRecipes
+      <Header
+        disabledSearch
+      >
+        Receitas Favoritas
+      </Header>
     </main>
   );
 }
