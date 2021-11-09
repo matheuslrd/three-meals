@@ -5,19 +5,24 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
 import Button from './Button';
+import SearchBar from './SearchBar';
 
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
+import '../Styles/Header.css';
+
 function Header({ children, disabledSearch }) {
   const [redirectProfile, setRedirectProfile] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
-  const btnSearch = (
+  const btnSearch = () => (
     <section className="search-container">
       <Button
         dataTestId="search-top-btn"
         display={ disabledSearch }
         src={ searchIcon }
+        onClick={ () => setShowSearchBar(!showSearchBar) }
       >
         <img src={ searchIcon } alt="Profile Icon" />
       </Button>
@@ -25,7 +30,7 @@ function Header({ children, disabledSearch }) {
   );
 
   return (
-    <div className="header">
+    <header className="header">
       { redirectProfile && <Redirect to="/perfil" /> }
 
       <div className="container-icons">
@@ -44,9 +49,11 @@ function Header({ children, disabledSearch }) {
             { children }
           </h1>
         </section>
-        { !disabledSearch && btnSearch }
+        { !disabledSearch && btnSearch() }
       </div>
-    </div>
+
+      { showSearchBar && <SearchBar /> }
+    </header>
   );
 }
 
