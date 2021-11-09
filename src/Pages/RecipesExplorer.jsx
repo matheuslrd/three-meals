@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../Components/Footer';
 
 import Header from '../Components/Header';
 
@@ -10,6 +11,7 @@ function RecipesExplorer() {
       >
         Explorar
       </Header>
+      <Footer />
     </main>
   );
 }

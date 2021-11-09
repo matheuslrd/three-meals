@@ -1,3 +1,18 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .app {
   background: #f3f3f3;
+  height: 100vh;
+  width: 100vw;
+}
+
+.main-recipes {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
