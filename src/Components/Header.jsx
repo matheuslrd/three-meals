@@ -51,7 +51,7 @@ function Header({ children, disabledSearch }) {
         { !disabledSearch && btnSearch() }
       </div>
 
-      { showSearchBar && <SearchBar /> }
+      { showSearchBar && <SearchBar textFilterPage={ children } /> }
     </header>
   );
 }
