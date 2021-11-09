@@ -11,13 +11,13 @@ const INITIAL_USER = {
 
 function MyContextProvider({ children }) {
   const [user, setUser] = useState(INITIAL_USER);
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [filterUrl, setFilterUrl] = useState('https://www.themealdb.com/api/json/v1/1/search.php?s=');
 
   useEffect(() => {
     async function settingData() {
       const dataApi = await requestApi(filterUrl);
-      setData(dataApi);
+      setData(dataApi.meals || dataApi.drinks);
     }
 
     if (filterUrl.length !== 0) {

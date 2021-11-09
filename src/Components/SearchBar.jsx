@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 import DefaultInput from './DefaultInput';
 import Button from './Button';
@@ -10,7 +11,17 @@ function SearchBar({ textFilterPage }) {
   const [searchText, setSearchText] = useState('');
   const [filterSelected, setFilterSelected] = useState('');
 
-  const { filterUrl, setFilterUrl } = useContext(MyContext);
+  const { filterUrl, setFilterUrl, data } = useContext(MyContext);
+
+  function verifyLengthRecipes() {
+    if (data.length === 1 && textFilterPage === 'Comidas') {
+      return <Redirect to={ `/comidas/${data[0].idMeal}` } />;
+    }
+
+    if (data.length === 1 && textFilterPage === 'Bebidas') {
+      return <Redirect to={ `/bebidas/${data[0].idDrink}` } />;
+    }
+  }
 
   function filterRecipes() {
     let url = filterUrl;
@@ -34,11 +45,12 @@ function SearchBar({ textFilterPage }) {
         : `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchText}`;
     }
 
-    return setFilterUrl(url);
+    setFilterUrl(url);
   }
 
   return (
     <section className="search-input">
+      { verifyLengthRecipes() }
       <DefaultInput
         id="search-input"
         name="search-input"
