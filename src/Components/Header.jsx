@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../Styles/Header.css';
 
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
@@ -27,22 +28,24 @@ function Header({ children, disabledSearch }) {
     <div className="header">
       { redirectProfile && <Redirect to="/perfil" /> }
 
-      <section className="perfil-container">
-        <Button
-          dataTestId="profile-top-btn"
-          onClick={ () => setRedirectProfile(true) }
-          src={ profileIcon }
-        >
-          <img src={ profileIcon } alt="Profile Icon" />
-        </Button>
-      </section>
+      <div className="container-icons">
+        <section className="perfil-container">
+          <Button
+            dataTestId="profile-top-btn"
+            onClick={ () => setRedirectProfile(true) }
+            src={ profileIcon }
+          >
+            <img src={ profileIcon } alt="Profile Icon" />
+          </Button>
+        </section>
 
-      <section className="title-page-container">
-        <h1 className="title-page" data-testid="page-title">
-          { children }
-        </h1>
-      </section>
-      { !disabledSearch && btnSearch }
+        <section className="title-page-container">
+          <h1 className="title-page" data-testid="page-title">
+            { children }
+          </h1>
+        </section>
+        { !disabledSearch && btnSearch }
+      </div>
     </div>
   );
 }

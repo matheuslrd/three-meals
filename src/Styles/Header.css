@@ -1,0 +1,10 @@
+.header {
+  background-color: lightgray;
+  position: fixed;
+  top: 0;
+}
+
+.container-icons {
+  display: flex;
+  flex-flow: row nowrap;
+}
