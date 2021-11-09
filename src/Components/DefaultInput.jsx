@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 function DefaultInput(props) {
   const { type, id, name, text, onChange, placeholder, className } = props;
+
   return (
     <label htmlFor={ id } className={ className }>
       { text }
@@ -28,6 +29,11 @@ DefaultInput.propTypes = {
   className: PropTypes.string,
 };
 
-DefaultInput.defaultProps = { name: '', text: '', placeholder: '', className: '' };
+DefaultInput.defaultProps = {
+  name: '',
+  text: '',
+  placeholder: '',
+  className: '',
+};
 
 export default DefaultInput;

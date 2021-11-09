@@ -1,0 +1,4 @@
+.container-icons {
+  display: flex;
+  flex-flow: row nowrap;
+}
