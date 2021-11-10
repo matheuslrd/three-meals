@@ -16,3 +16,45 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.recipes-filter {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  margin: calc(8vh + 5vmin) 0;
+  width: 100%;
+}
+
+.recipes-filter button {
+  background-color: lightgray;
+  margin: 3px;
+  padding: 3px 5px;
+}
+
+.recipes-section {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  margin-bottom: calc(8vh + 5vmin);
+  width: 100%;
+}
+
+.recipe-card {
+  align-items: center;
+  border-radius: 15px;
+  box-shadow: 0 0.7px 2px black;
+  contain: content;
+  display: flex;
+  flex: auto;
+  flex-flow: column;
+  justify-content: center;
+  margin-bottom: 10px;
+  max-width: 45%;
+  text-align: center;
+}
+
+.recipe-card img {
+  width: 100%;
+}
