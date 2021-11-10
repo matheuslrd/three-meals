@@ -9,20 +9,36 @@ const INITIAL_USER = {
   email: '',
 };
 
+const INITIAL_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+const MEAL_CATEGORY_URL = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+const DRINK_CATEGORY_URL = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+
 function MyContextProvider({ children }) {
   const [user, setUser] = useState(INITIAL_USER);
-  const [data, setData] = useState();
-  const [filterUrl, setFilterUrl] = useState('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+  const [data, setData] = useState([]);
+  const [filterUrl, setFilterUrl] = useState(INITIAL_URL);
+  const [mealCategories, setMealCategories] = useState([]);
+  const [drinkCategories, setDrinkCategories] = useState([]);
+
+  useEffect(() => {
+    function getCategories() {
+      requestApi(MEAL_CATEGORY_URL)
+        .then((result) => setMealCategories(result.meals
+          .map(({ strCategory }) => strCategory)));
+      requestApi(DRINK_CATEGORY_URL)
+        .then((result) => setDrinkCategories(result.drinks
+          .map(({ strCategory }) => strCategory)));
+    }
+    getCategories();
+  }, []);
 
   useEffect(() => {
     async function settingData() {
       const dataApi = await requestApi(filterUrl);
-      setData(dataApi);
+      setData(dataApi.drinks || dataApi.meals);
     }
 
-    if (filterUrl.length !== 0) {
-      settingData();
-    }
+    settingData();
   }, [filterUrl]);
 
   const context = {
@@ -31,6 +47,8 @@ function MyContextProvider({ children }) {
     setUser,
     filterUrl,
     setFilterUrl,
+    mealCategories,
+    drinkCategories,
   };
 
   return (
