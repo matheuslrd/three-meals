@@ -21,6 +21,21 @@ function MyContextProvider({ children }) {
   const [drinkCategories, setDrinkCategories] = useState([]);
 
   useEffect(() => {
+    async function settingData() {
+      const dataApi = await requestApi(filterUrl);
+      const dataCondition = dataApi.meals || dataApi.drinks;
+      if (!dataCondition) {
+        return global.alert(
+          'Sinto muito, não encontramos nenhuma receita para esses filtros.',
+        );
+      }
+      return setData(dataCondition);
+    }
+
+    settingData();
+  }, [filterUrl]);
+
+  useEffect(() => {
     function getCategories() {
       requestApi(MEAL_CATEGORY_URL)
         .then((result) => setMealCategories(result.meals
@@ -31,15 +46,6 @@ function MyContextProvider({ children }) {
     }
     getCategories();
   }, []);
-
-  useEffect(() => {
-    async function settingData() {
-      const dataApi = await requestApi(filterUrl);
-      setData(dataApi.drinks || dataApi.meals);
-    }
-
-    settingData();
-  }, [filterUrl]);
 
   const context = {
     data,

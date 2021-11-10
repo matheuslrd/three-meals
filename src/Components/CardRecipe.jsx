@@ -14,11 +14,19 @@ function CardRecipe({ pathName, id, index, recipeImg, recipeName }) {
 }
 
 CardRecipe.propTypes = {
-  pathName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
-  recipeImg: PropTypes.string.isRequired,
-  recipeName: PropTypes.string.isRequired,
+  pathName: PropTypes.string,
+  id: PropTypes.string,
+  index: PropTypes.number,
+  recipeImg: PropTypes.string,
+  recipeName: PropTypes.string,
+};
+
+CardRecipe.defaultProps = {
+  pathName: null,
+  id: null,
+  index: null,
+  recipeImg: null,
+  recipeName: null,
 };
 
 export default CardRecipe;

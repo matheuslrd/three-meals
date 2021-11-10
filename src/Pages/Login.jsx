@@ -46,7 +46,7 @@ function Login() {
           className="login-input"
         />
         <DefaultInput
-          type="text"
+          type="password"
           id="password-input"
           name="password"
           text="Password: "
