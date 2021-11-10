@@ -23,7 +23,13 @@ function MyContextProvider({ children }) {
   useEffect(() => {
     async function settingData() {
       const dataApi = await requestApi(filterUrl);
-      setData(dataApi.meals || dataApi.drinks);
+      const dataCondition = dataApi.meals || dataApi.drinks;
+      if (!dataCondition) {
+        return global.alert(
+          'Sinto muito, não encontramos nenhuma receita para esses filtros.',
+        );
+      }
+      return setData(dataCondition);
     }
 
     settingData();
