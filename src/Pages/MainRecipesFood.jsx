@@ -5,12 +5,15 @@ import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
 import { MyContext } from '../Context/MyContext';
+import requestApi from '../Services/requestApi';
 
 function MainRecipes() {
   const { data, filterUrl, setFilterUrl, mealCategories } = useContext(MyContext);
-  const [filter, setFilter] = useState('');
+  const [selectedFilter, setSelectedFilter] = useState('');
+  const [filters, setFilters] = useState({});
   const [recipes, setRecipes] = useState([]);
 
+  const CATEGORY_URL = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
   const INITIAL_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
   const maxLength = 5;
@@ -23,19 +26,44 @@ function MainRecipes() {
   }, []);
 
   useEffect(() => {
-    let recipesArray;
     if (data.length > 0) {
-      recipesArray = data.filter(({ strCategory }) => strCategory.includes(filter));
-      setRecipes(recipesArray);
+      setRecipes([...data]);
     }
-  }, [data, filter]);
+  }, [data]);
 
-  function handleFilter(value) {
-    if (value === filter) {
-      setFilter('');
-    } else {
-      setFilter(value);
+  useEffect(() => {
+    const categoriesArray = {};
+    if (mealCategories.length > 0) {
+      mealCategories.forEach((category) => {
+        categoriesArray[category] = [];
+      });
+      setFilters(categoriesArray);
     }
+  }, [mealCategories]);
+
+  async function handleFilter(category) {
+    function getFilteredRecipes() {
+      return requestApi(`${CATEGORY_URL}${category}`)
+        .then((result) => {
+          setFilters({ ...filters, [category]: result.meals });
+          return result.meals;
+        });
+    }
+
+    let filterResult = [...data];
+    if (category === selectedFilter) {
+      filterResult = [...data];
+
+      setSelectedFilter('');
+    } else {
+      filterResult = filters[category].length > 0
+        ? [...filters[category]]
+        : await getFilteredRecipes();
+
+      setSelectedFilter(category);
+    }
+
+    setRecipes(filterResult);
   }
 
   return (
@@ -44,7 +72,13 @@ function MainRecipes() {
         Comidas
       </Header>
       <section className="recipes-filter">
-        <button type="button" onClick={ () => setFilter('') }>All</button>
+        <button
+          type="button"
+          onClick={ () => handleFilter(selectedFilter) }
+          data-testid="All-category-filter"
+        >
+          All
+        </button>
         { mealCategories.length > 0 && mealCategories.map((category, ind) => (
           ind < maxLength ? (
             <button

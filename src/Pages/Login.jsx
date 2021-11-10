@@ -40,6 +40,7 @@ function Login() {
           id="email-input"
           name="email"
           text="Email: "
+          value={ email }
           onChange={ handleChange }
           placeholder="email@example.com"
           className="login-input"
@@ -49,6 +50,7 @@ function Login() {
           id="password-input"
           name="password"
           text="Password: "
+          value={ password }
           onChange={ handleChange }
           className="login-input"
         />
