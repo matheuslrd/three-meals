@@ -1,21 +1,31 @@
+.Details {
+  width: 100%;
+}
+
 .foodPhoto {
   width: 100px;
 }
 
 .carousel-container {
-  border: 1px solid red;
+  margin: 2em;
+  width: 100%;
 }
 
 .container-cards {
-  border: 1px solid green;
+  align-items: center;
   display: flex;
   flex-flow: row;
-  max-width: 120%;
-  overflow-x: auto;
-  overflow-y: scroll;
+  height: 200px;
+  overflow: scroll;
+  width: 100%;
 }
 
 .recipe-card-recommended {
-  border: 1px solid blue;
-  margin: 0 0.2em;
+  margin: 0 1em;
+  width: 10em;
+}
+
+.footer-details {
+  bottom: 0;
+  position: fixed;
 }

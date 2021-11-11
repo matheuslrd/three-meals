@@ -92,15 +92,17 @@ function MainRecipesDrinks() {
           ) : null
         )) }
       </section>
+
       <section className="recipes-section">
         { recipes.length > 0 && recipes.slice(0, maxIndex)
-          .map(({ idDrink, strDrink, strDrinkThumb }, ind) => (
+          .map(({ idDrink, strDrink, strDrinkThumb }, index) => (
             <CardRecipe
-              key={ `${ind}${idDrink}` }
+              key={ `${index}${idDrink}` }
               pathName="/bebidas"
               id={ idDrink }
-              index={ ind }
-              testId={ `${ind}-recipe-card` }
+              testId={ `${index}-recipe-card` }
+              testIdTitle={ `${index}-card-name` }
+              testIdImg={ `${index}-card-img` }
               recipeImg={ strDrinkThumb }
               recipeName={ strDrink }
             />

@@ -1,22 +1,19 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import CardRecipe from './CardRecipe';
 
-import { MyContext } from '../Context/MyContext';
-
 import requestApi from '../Services/requestApi';
 
-function Carousel() {
+function Carousel({ url }) {
   const [recommendedData, setRecommendedData] = useState([]);
 
-  const { filterUrl } = useContext(MyContext);
-
   async function requestRecommendedRecipes() {
-    const url = filterUrl.includes('meal')
+    const URL_API = url.includes('comidas')
       ? 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
       : 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
-    const resolve = await requestApi(url);
+    const resolve = await requestApi(URL_API);
     setRecommendedData(resolve.meals || resolve.drinks);
   }
 
@@ -26,7 +23,7 @@ function Carousel() {
 
   function showRecommendedCards() {
     const numMaxRecommendedRecipes = 6;
-    const pathName = filterUrl.includes('meal')
+    const pathName = url.includes('comidas')
       ? '/bebidas'
       : '/comidas';
 
@@ -35,12 +32,14 @@ function Carousel() {
         .map((recipe, index) => (
           <CardRecipe
             className="recipe-card-recommended"
-            key={ index }
-            testId={ `${index}-recomendation-card` }
             id={ recipe.idMeal || recipe.idDrink }
+            key={ index }
             pathName={ pathName }
             recipeImg={ recipe.strMealThumb || recipe.strDrinkThumb }
             recipeName={ recipe.strMeal || recipe.strDrink }
+            testId={ `${index}-recomendation-card` }
+            testIdTitle={ `${index}-recomendation-title` }
+            testIdImg={ `${index}-card-img` }
           />
         ))
     );
@@ -48,12 +47,18 @@ function Carousel() {
 
   return (
     <div className="carousel-container">
-      <h2> Recomendadas </h2>
+      <h2 data-testid="0-recomendation-title">
+        Recomendadas
+      </h2>
       <div className="container-cards">
         { recommendedData.length > 0 ? showRecommendedCards() : '...loading' }
       </div>
     </div>
   );
 }
+
+Carousel.propTypes = {
+  url: PropTypes.string.isRequired,
+};
 
 export default Carousel;
