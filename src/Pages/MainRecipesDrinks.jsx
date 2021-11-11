@@ -96,7 +96,7 @@ function MainRecipesDrinks() {
         { recipes.length > 0 && recipes.slice(0, maxIndex)
           .map(({ idDrink, strDrink, strDrinkThumb }, ind) => (
             <CardRecipe
-              key={ ind }
+              key={ `${ind}${idDrink}` }
               pathName="/bebidas"
               id={ idDrink }
               index={ ind }

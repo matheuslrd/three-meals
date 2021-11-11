@@ -24,7 +24,6 @@ function Details() {
       ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
       : `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
     const resolve = await requestApi(url);
-    console.log(resolve);
     const fetchResult = resolve.meals || resolve.drinks;
     setFoodData(fetchResult[0]);
   }
@@ -40,12 +39,19 @@ function Details() {
     const keysMeasures = keysMeasureData.filter((key) => key.includes('strMeasure'));
 
     return keysIngredients.map((ingredient, index) => (
-      foodData[ingredient] === ('' || null) ? null
+      foodData[ingredient] === '' || !foodData[ingredient] ? null
         : (
           <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-            {`${foodData[ingredient]}: ${foodData[keysMeasures[index]] || ''}`}
+            {`${foodData[ingredient]}: ${foodData[keysMeasures[index]] || 'to taste'}`}
           </li>)
     ));
+  }
+
+  function getVideoUrl() {
+    if (foodData.strYoutube) {
+      return foodData.strYoutube.split('=')[1];
+    }
+    return '2Z4m4lnjxkY';
   }
 
   useEffect(() => {
@@ -77,8 +83,16 @@ function Details() {
         Instructions:
         {foodData.strInstructions}
       </p>
-      {/* <iframe height="200" width="300"
-      src={ foodData.strYoutube } data-testid="video" /> */}
+      <iframe
+        data-testid="video"
+        width="350"
+        height="205"
+        src={ `https://www.youtube.com/embed/${getVideoUrl()}` }
+        title="YouTube recipe video player"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media;"
+        allowFullScreen
+      />
       <CardRecipe data-testid="index-recomendation-card" />
       <Button dataTestId="start-recipe-btn">Start Recipe</Button>
 
