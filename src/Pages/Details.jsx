@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router';
 
-import CardRecipe from '../Components/CardRecipe';
+import Carousel from '../Components/Carousel';
 import Button from '../Components/Button';
-import { MyContext } from '../Context/MyContext';
+import VideoIframe from '../Components/VideoIframe';
+
+// import { MyContext } from '../Context/MyContext';
 
 import '../Styles/Details.css';
 
@@ -14,16 +16,17 @@ import requestApi from '../Services/requestApi';
 // 178319 bebida
 // 52977 comida
 
-function Details() {
-  const { filterUrl } = useContext(MyContext);
+function Details({ match: { url } }) {
+  console.log(url);
+  // const { filterUrl } = useContext(MyContext);
   const { id } = useParams();
   const [foodData, setFoodData] = useState([]);
 
   async function fetchFood() {
-    const url = filterUrl.includes('meal')
+    const URL_API = url.includes('comidas')
       ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
       : `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-    const resolve = await requestApi(url);
+    const resolve = await requestApi(URL_API);
     const fetchResult = resolve.meals || resolve.drinks;
     setFoodData(fetchResult[0]);
   }
@@ -47,13 +50,6 @@ function Details() {
     ));
   }
 
-  function getVideoUrl() {
-    if (foodData.strYoutube) {
-      return foodData.strYoutube.split('=')[1];
-    }
-    return '2Z4m4lnjxkY';
-  }
-
   useEffect(() => {
     filterIngredients();
   }, [foodData]);
@@ -75,7 +71,13 @@ function Details() {
       <Button dataTestId="favorite-btn">
         Favorite
       </Button>
-      <p data-testid="recipe-category">{foodData.strCategory}</p>
+      { foodData.strAlcoholic ? (
+        <>
+          <p>{ foodData.strCategory }</p>
+          <p data-testid="recipe-category">{foodData.strAlcoholic}</p>
+        </>
+      )
+        : <p data-testid="recipe-category">{foodData.strCategory}</p> }
       <ol>
         { filterIngredients() }
       </ol>
@@ -83,19 +85,9 @@ function Details() {
         Instructions:
         {foodData.strInstructions}
       </p>
-      <iframe
-        data-testid="video"
-        width="350"
-        height="205"
-        src={ `https://www.youtube.com/embed/${getVideoUrl()}` }
-        title="YouTube recipe video player"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media;"
-        allowFullScreen
-      />
-      <CardRecipe data-testid="index-recomendation-card" />
+      <VideoIframe data={ foodData } />
+      <Carousel />
       <Button dataTestId="start-recipe-btn">Start Recipe</Button>
-
     </main>
   );
 }

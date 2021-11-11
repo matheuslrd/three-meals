@@ -100,6 +100,7 @@ function MainRecipes() {
               pathName="/comidas"
               id={ idMeal }
               index={ ind }
+              testId={ `${ind}-recipe-card` }
               recipeImg={ strMealThumb }
               recipeName={ strMeal }
             />
