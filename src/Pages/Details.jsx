@@ -87,24 +87,26 @@ function Details({ match: { url } }) {
     const inProgress = GetLocalStorage('inProgressRecipes').cocktails[id]
       || GetLocalStorage('inProgressRecipes').meals[id];
 
-    if (!doneRecipe.some((recipe) => recipe.id.toString() === id)) {
-      if (inProgress) {
-        return (
-          <Button
-            className="footer-details"
-          >
-            Continuar Receita
-          </Button>);
-      }
+    const btnContinueRecipe = (
+      <Button
+        className="footer-details"
+      >
+        Continuar Receita
+      </Button>
+    );
 
-      return (
-        <Button
-          className="footer-details"
-          dataTestId="start-recipe-btn"
-          onClick={ startRecipe }
-        >
-          Start Recipe
-        </Button>);
+    const btnStartRecipe = (
+      <Button
+        className="footer-details"
+        dataTestId="start-recipe-btn"
+        onClick={ startRecipe }
+      >
+        Start Recipe
+      </Button>
+    );
+
+    if (!doneRecipe.some((recipe) => recipe.id.toString() === id)) {
+      return inProgress ? btnContinueRecipe : btnStartRecipe;
     }
 
     return null;
