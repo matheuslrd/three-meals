@@ -1,0 +1,77 @@
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+import { ToLocalStorage, GetLocalStorage } from '../Helper/ToLocalStorage';
+
+import Button from './Button';
+
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+
+function BtnFavoriteRecipe({ id, url, foodData }) {
+  const [iconFavorite, setIconFavorite] = useState(false);
+
+  function verifyRecipeInFavorites() {
+    const favoriteRecipes = GetLocalStorage('favoriteRecipes');
+    const inFavoriteOrNot = favoriteRecipes.some((recipe) => recipe.id === id);
+    return inFavoriteOrNot;
+  }
+
+  useEffect(() => {
+    setIconFavorite(verifyRecipeInFavorites());
+  }, []);
+
+  function filterKeysRecipes(recipe) {
+    const idRecipe = recipe.idMeal || recipe.idDrink;
+    const name = recipe.strMeal || recipe.strDrink;
+    const image = recipe.strMealThumb || recipe.strDrinkThumb;
+    const { strArea, strCategory, strTags } = recipe;
+
+    return {
+      id: idRecipe,
+      type: url.includes('comidas') ? 'Meal' : 'Drink',
+      area: strArea,
+      category: strCategory,
+      alcoholicOrNot: url.includes('comidas') ? '' : recipe.strAlcoholic,
+      name,
+      image,
+      doneDate: null,
+      tags: strTags,
+    };
+  }
+
+  function addToFavorite() {
+    const favoriteRecipes = GetLocalStorage('favoriteRecipes');
+    const newRecipe = filterKeysRecipes(foodData);
+
+    setIconFavorite(!iconFavorite);
+
+    const inFavoriteOrNot = favoriteRecipes.some((recipe) => recipe.id === id);
+
+    if (inFavoriteOrNot) {
+      const listFavoritesRemoveRecipe = favoriteRecipes
+        .filter((recipe) => recipe.id !== id);
+
+      return ToLocalStorage('favoriteRecipes', listFavoritesRemoveRecipe);
+    }
+
+    return ToLocalStorage('favoriteRecipes', [...favoriteRecipes, newRecipe]);
+  }
+
+  return (
+    <Button
+      dataTestId="favorite-btn"
+      onClick={ addToFavorite }
+    >
+      <img src={ iconFavorite ? blackHeartIcon : whiteHeartIcon } alt="Favorite Icon" />
+    </Button>
+  );
+}
+
+BtnFavoriteRecipe.propTypes = {
+  id: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  foodData: PropTypes.shape(PropTypes.any).isRequired,
+};
+
+export default BtnFavoriteRecipe;

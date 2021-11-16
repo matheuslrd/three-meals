@@ -20,7 +20,7 @@ function MainRecipesDrinks() {
   const maxIndex = 12;
 
   useEffect(() => {
-    if (filterUrl !== INITIAL_URL) {
+    if (!filterUrl.includes('cocktail')) {
       setFilterUrl(INITIAL_URL);
     }
   }, []);

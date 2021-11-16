@@ -24,7 +24,11 @@ function VideoIframe({ data }) {
 }
 
 VideoIframe.propTypes = {
-  data: PropTypes.objectOf(PropTypes.any).isRequired,
+  data: PropTypes.shape(PropTypes.any),
+};
+
+VideoIframe.defaultProps = {
+  data: {},
 };
 
 export default VideoIframe;

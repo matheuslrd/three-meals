@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import '../Styles/Login.css';
 import { MyContext } from '../Context/MyContext';
 import DefaultInput from '../Components/DefaultInput';
-import ToLocalStorage from '../Helper/ToLocalStorage';
+import { ToLocalStorage } from '../Helper/ToLocalStorage';
 
 function Login() {
   const RegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -14,6 +14,14 @@ function Login() {
 
   const [state, setState] = useState(INITIAL_STATE);
   const { email, password, login } = state;
+
+  function createLocalStorageKeys() {
+    if (!localStorage.getItem('doneRecipes')) ToLocalStorage('doneRecipes', []);
+    if (!localStorage.getItem('favoriteRecipes')) ToLocalStorage('favoriteRecipes', []);
+    if (!localStorage.getItem('inProgressRecipes')) {
+      ToLocalStorage('inProgressRecipes', { cocktails: {}, meals: {} });
+    }
+  }
 
   function handleChange({ target: { name, value } }) {
     setState({ ...state, [name]: value });
@@ -29,6 +37,10 @@ function Login() {
     setUser({ ...user, email });
     setState({ ...state, login: true });
   }
+
+  useEffect(() => {
+    createLocalStorageKeys();
+  }, []);
 
   return (
     <main className="login">

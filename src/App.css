@@ -41,6 +41,10 @@
   width: 100%;
 }
 
+.recipes-section a {
+  width: 40%;
+}
+
 .recipe-card {
   align-items: center;
   border-radius: 15px;
@@ -51,10 +55,38 @@
   flex-flow: column;
   justify-content: center;
   margin-bottom: 10px;
-  max-width: 45%;
   text-align: center;
 }
 
 .recipe-card img {
   width: 100%;
+}
+
+.recipes-explorer {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  padding-top: 25%;
+}
+
+.explorer-btn {
+  margin-top: 20%;
+}
+
+.ingredients-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  margin: 30% 3%;
+}
+
+.ingredients-container button {
+  border: none;
+  margin: 0.5em;
+  width: 30%;
+}
+
+.ingredients-container .recipe-card {
+  max-width: none;
 }

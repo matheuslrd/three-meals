@@ -20,7 +20,7 @@ function MainRecipes() {
   const maxIndex = 12;
 
   useEffect(() => {
-    if (filterUrl !== INITIAL_URL) {
+    if (!filterUrl.includes('meal')) {
       setFilterUrl(INITIAL_URL);
     }
   }, []);
