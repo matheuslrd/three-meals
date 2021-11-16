@@ -1,0 +1,31 @@
+.Details {
+  width: 100%;
+}
+
+.foodPhoto {
+  width: 100px;
+}
+
+.carousel-container {
+  margin: 2em;
+  width: 100%;
+}
+
+.container-cards {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  height: 200px;
+  overflow: scroll;
+  width: 100%;
+}
+
+.recipe-card-recommended {
+  margin: 0 1em;
+  width: 10em;
+}
+
+.footer-details {
+  bottom: 0;
+  position: fixed;
+}
