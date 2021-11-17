@@ -4,53 +4,65 @@ import { useParams } from 'react-router';
 
 import Carousel from '../Components/Carousel';
 import Button from '../Components/Button';
+import BtnFavoriteRecipe from '../Components/BtnFavoriteRecipe';
 import VideoIframe from '../Components/VideoIframe';
+import BtnInitOrContinueRecipe from '../Components/BtnInitOrContinueRecipe';
 
 import '../Styles/Details.css';
 
 import requestApi from '../Services/requestApi';
-
 // 178319 bebida
 // 52977 comida
 
 function Details({ match: { url } }) {
   const { id } = useParams();
-  const [foodData, setFoodData] = useState([]);
-
-  async function fetchFood() {
-    const URL_API = url.includes('comidas')
-      ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
-      : `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-    const resolve = await requestApi(URL_API);
-    const fetchResult = resolve.meals || resolve.drinks;
-    setFoodData(fetchResult[0]);
-  }
+  const [foodData, setFoodData] = useState({});
 
   useEffect(() => {
-    fetchFood();
-  }, []);
+    async function fetchFood() {
+      const links = {
+        foodLink: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
+        drinkLink: `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
+      };
 
-  function filterIngredients() {
+      const URL_API = url.includes('comidas') ? links.foodLink : links.drinkLink;
+      const resolve = await requestApi(URL_API);
+      const fetchResult = resolve.meals || resolve.drinks;
+      setFoodData(fetchResult[0]);
+    }
+
+    fetchFood();
+  }, [id, url]);
+
+  function getIngredients() {
     const keysFoodData = Object.keys(foodData);
     const keysIngredients = keysFoodData.filter((key) => key.includes('strIngredient'));
     const keysMeasureData = Object.keys(foodData);
     const keysMeasures = keysMeasureData.filter((key) => key.includes('strMeasure'));
+    return keysIngredients
+      .map((ingredient, index) => {
+        const item = foodData[ingredient];
+        const measure = foodData[keysMeasures[index]];
+        return {
+          item, measure,
+        };
+      });
+  }
 
-    return keysIngredients.map((ingredient, index) => (
-      foodData[ingredient] === '' || !foodData[ingredient] ? null
+  function filterIngredients() {
+    const ingredientsArray = getIngredients();
+
+    return ingredientsArray.map(({ item, measure }, index) => (
+      item === '' || !item ? null
         : (
           <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-            {`${foodData[ingredient]}: ${foodData[keysMeasures[index]] || 'to taste'}`}
+            {`${item}: ${measure || 'to taste'}`}
           </li>)
     ));
   }
 
-  useEffect(() => {
-    filterIngredients();
-  }, [foodData]);
-
   return (
-    <main className="Details">
+    <main className="details">
       <section className="recipe-informations">
         <header className="header-details">
           <img
@@ -68,9 +80,11 @@ function Details({ match: { url } }) {
           <Button dataTestId="share-btn">
             Share
           </Button>
-          <Button dataTestId="favorite-btn">
-            Favorite
-          </Button>
+          <BtnFavoriteRecipe
+            id={ id }
+            url={ url }
+            foodData={ foodData }
+          />
         </div>
 
         <div className="is-alcoholic">
@@ -98,12 +112,11 @@ function Details({ match: { url } }) {
       <VideoIframe data={ foodData } />
       <Carousel url={ url } />
       <footer>
-        <Button
-          className="footer-details"
-          dataTestId="start-recipe-btn"
-        >
-          Start Recipe
-        </Button>
+        <BtnInitOrContinueRecipe
+          id={ id }
+          url={ url }
+          ingredients={ getIngredients() }
+        />
       </footer>
     </main>
   );
@@ -112,7 +125,6 @@ function Details({ match: { url } }) {
 Details.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string,
-    includes: PropTypes.func,
   }).isRequired,
 };
 

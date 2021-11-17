@@ -1,4 +1,4 @@
-.Details {
+.details {
   width: 100%;
 }
 
@@ -25,7 +25,15 @@
   width: 10em;
 }
 
+.details footer {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
 .footer-details {
   bottom: 0;
+  padding: 5px;
   position: fixed;
 }

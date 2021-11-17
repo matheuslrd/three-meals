@@ -1,20 +1,10 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-
 import { Link } from 'react-router-dom';
 
 function CardRecipe(props) {
-  const {
-    id,
-    testId,
-    pathName,
-    className,
-    recipeImg,
-    recipeName,
-    testIdImg,
-    testIdTitle,
-  } = props;
+  const { id, testId, pathName, className,
+    recipeImg, recipeName, testIdImg, testIdTitle } = props;
 
   return (
     <Link to={ `${pathName}/${id}` }>
@@ -25,10 +15,7 @@ function CardRecipe(props) {
           data-testid={ testIdImg }
           src={ recipeImg }
         />
-        <span
-          className="title-recipe"
-          data-testid={ testIdTitle }
-        >
+        <span className="title-recipe" data-testid={ testIdTitle }>
           { recipeName }
         </span>
       </div>
@@ -38,7 +25,7 @@ function CardRecipe(props) {
 
 CardRecipe.propTypes = {
   className: PropTypes.string,
-  pathName: PropTypes.string,
+  pathName: PropTypes.string.isRequired,
   id: PropTypes.string,
   testId: PropTypes.string,
   testIdImg: PropTypes.string,
@@ -48,14 +35,13 @@ CardRecipe.propTypes = {
 };
 
 CardRecipe.defaultProps = {
-  className: null,
-  pathName: null,
-  id: null,
+  className: '',
+  id: '',
   testIdTitle: null,
   testIdImg: null,
   testId: null,
   recipeImg: null,
-  recipeName: null,
+  recipeName: '',
 };
 
 export default CardRecipe;

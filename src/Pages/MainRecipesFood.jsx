@@ -20,10 +20,10 @@ function MainRecipes() {
   const maxIndex = 12;
 
   useEffect(() => {
-    if (filterUrl !== INITIAL_URL) {
+    if (!filterUrl.includes('meal')) {
       setFilterUrl(INITIAL_URL);
     }
-  }, []);
+  }, [filterUrl, setFilterUrl]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -50,7 +50,7 @@ function MainRecipes() {
         });
     }
 
-    let filterResult = [...data];
+    let filterResult;
     if (category === selectedFilter) {
       filterResult = [...data];
 
