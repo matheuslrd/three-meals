@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router';
 
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
