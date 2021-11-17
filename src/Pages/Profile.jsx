@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
@@ -7,7 +7,16 @@ import '../Styles/Profile.css';
 
 import Button from '../Components/Button';
 
+import { GetLocalStorage } from '../Helper/ToLocalStorage';
+
 function Profile() {
+  const [email, setEmail] = useState();
+
+  useEffect(() => {
+    const user = GetLocalStorage('user');
+    setEmail(user.email);
+  }, []);
+
   return (
     <main className="Profile">
       <Header
@@ -17,7 +26,7 @@ function Profile() {
       </Header>
       <article className="main-content">
         <section data-testid="profile-email">
-          emailDaPessoa@email.com
+          { email }
         </section>
         <section className="container-links">
           <Button
