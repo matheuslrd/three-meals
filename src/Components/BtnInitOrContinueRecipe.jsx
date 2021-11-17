@@ -22,16 +22,23 @@ function BtnInitOrContinueRecipe({ id, url, ingredients }) {
   }
 
   function conditionalButton() {
-    const recipeIsDone = GetLocalStorage('doneRecipes')
+    const doneRecipes = GetLocalStorage('doneRecipes') || [];
+    const recipeIsDone = doneRecipes
       .every((recipe) => recipe.id.toString() !== id);
 
-    const recipeIsInProgress = GetLocalStorage('inProgressRecipes').cocktails[id]
-      || GetLocalStorage('inProgressRecipes').meals[id];
+    const inProgressRecipes = GetLocalStorage('inProgressRecipes')
+      || { cocktails: {}, meals: {} };
+    const recipeIsInProgress = inProgressRecipes.cocktails
+      ? inProgressRecipes.cocktails[id] || inProgressRecipes.meals[id]
+      : inProgressRecipes.meals[id] || inProgressRecipes.cocktails[id];
 
     if (recipeIsDone) {
       return recipeIsInProgress
         ? (
-          <Button className="footer-details">
+          <Button
+            className="footer-details"
+            dataTestId="start-recipe-btn"
+          >
             Continuar Receita
           </Button>)
         : (

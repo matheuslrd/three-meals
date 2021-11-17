@@ -13,7 +13,7 @@ function BtnFavoriteRecipe({ id, url, foodData }) {
 
   useEffect(() => {
     function verifyRecipeInFavorites() {
-      const favoriteRecipes = GetLocalStorage('favoriteRecipes');
+      const favoriteRecipes = GetLocalStorage('favoriteRecipes') || [];
       const inFavoriteOrNot = favoriteRecipes.some((recipe) => recipe.id === id);
       return inFavoriteOrNot;
     }
@@ -41,7 +41,7 @@ function BtnFavoriteRecipe({ id, url, foodData }) {
   }
 
   function addToFavorite() {
-    const favoriteRecipes = GetLocalStorage('favoriteRecipes');
+    const favoriteRecipes = GetLocalStorage('favoriteRecipes') || [];
     const newRecipe = filterKeysRecipes(foodData);
 
     setIconFavorite(!iconFavorite);
@@ -62,6 +62,7 @@ function BtnFavoriteRecipe({ id, url, foodData }) {
     <Button
       dataTestId="favorite-btn"
       onClick={ addToFavorite }
+      src={ iconFavorite ? blackHeartIcon : whiteHeartIcon }
     >
       <img src={ iconFavorite ? blackHeartIcon : whiteHeartIcon } alt="Favorite Icon" />
     </Button>
