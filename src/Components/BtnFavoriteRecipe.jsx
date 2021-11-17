@@ -25,18 +25,16 @@ function BtnFavoriteRecipe({ id, url, foodData }) {
     const idRecipe = recipe.idMeal || recipe.idDrink;
     const name = recipe.strMeal || recipe.strDrink;
     const image = recipe.strMealThumb || recipe.strDrinkThumb;
-    const { strArea, strCategory, strTags } = recipe;
+    const { strArea, strCategory } = recipe;
 
     return {
       id: idRecipe,
-      type: url.includes('comidas') ? 'Meal' : 'Drink',
-      area: strArea,
+      type: url.includes('comidas') ? 'comida' : 'bebida',
+      area: strArea || '',
       category: strCategory,
       alcoholicOrNot: url.includes('comidas') ? '' : recipe.strAlcoholic,
       name,
       image,
-      doneDate: null,
-      tags: strTags,
     };
   }
 
