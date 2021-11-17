@@ -34,7 +34,7 @@ function Profile() {
             dataTestId="profile-done-btn"
             hasLink="/receitas-feitas"
           >
-            Recipes Done
+            Receitas Feitas
           </Button>
 
           <Button
@@ -42,7 +42,7 @@ function Profile() {
             dataTestId="profile-favorite-btn"
             hasLink="/receitas-favoritas"
           >
-            Favorite Recipes
+            Receitas Favoritas
           </Button>
 
           <Button
@@ -50,7 +50,7 @@ function Profile() {
             dataTestId="profile-logout-btn"
             hasLink="/"
           >
-            Logout
+            Sair
           </Button>
         </section>
       </article>
