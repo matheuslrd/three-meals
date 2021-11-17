@@ -15,12 +15,11 @@ import RecipesMade from '../Pages/RecipesMade';
 import NotFound from '../Pages/NotFound';
 import MainRecipesDrinks from '../Pages/MainRecipesDrinks';
 import FavoritesRecipes from '../Pages/FavoritesRecipes';
+import InProgressRecipe from '../Pages/InProgressRecipe';
 
 function Switcher() {
   return (
     <Switch>
-      <Route exact path="/explorar/bebidas/area" component={ AreaExplorer } />
-
       <Route exact path="/explorar/comidas/area" component={ AreaExplorer } />
 
       <Route
@@ -41,13 +40,13 @@ function Switcher() {
 
       <Route exact path="/explorar" component={ RecipesExplorer } />
 
-      <Route exact path="/bebidas/:id/in-progress" component={ Details } />
+      <Route exact path="/bebidas/:id/in-progress" component={ InProgressRecipe } />
 
       <Route exact path="/bebidas/:id" component={ Details } />
 
       <Route exact path="/bebidas" component={ MainRecipesDrinks } />
 
-      <Route exact path="/comidas/:id/in-progress" component={ Details } />
+      <Route exact path="/comidas/:id/in-progress" component={ InProgressRecipe } />
 
       <Route exact path="/comidas/:id" component={ Details } />
 

@@ -26,23 +26,34 @@ function SearchBar({ textFilterPage }) {
   function filterRecipes() {
     let url = filterUrl;
 
+    const linksFoodAndDrinks = {
+      ingredientFood: `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchText}`,
+      ingredientDrink: `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchText}`,
+      nameFood: `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`,
+      nameDrink: `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchText}`,
+      firstLetterFood: `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchText}`,
+      firstLetterDrink: `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchText}`,
+    };
+
     if (filterSelected === 'Ingrediente') {
       url = textFilterPage === 'Comidas'
-        ? `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchText}`
-        : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchText}`;
+        ? linksFoodAndDrinks.ingredientFood
+        : linksFoodAndDrinks.ingredientDrink;
     }
+
     if (filterSelected === 'Nome') {
       url = textFilterPage === 'Comidas'
-        ? `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`
-        : `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchText}`;
+        ? linksFoodAndDrinks.nameFood
+        : linksFoodAndDrinks.nameDrink;
     }
+
     if (filterSelected === 'Primeira letra') {
       if (searchText.length !== 1) {
         return global.alert('Sua busca deve conter somente 1 (um) caracter');
       }
       url = textFilterPage === 'Comidas'
-        ? `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchText}`
-        : `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchText}`;
+        ? linksFoodAndDrinks.firstLetterFood
+        : linksFoodAndDrinks.firstLetterDrink;
     }
 
     setFilterUrl(url);

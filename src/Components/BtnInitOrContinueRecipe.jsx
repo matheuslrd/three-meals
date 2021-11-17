@@ -4,19 +4,21 @@ import PropTypes from 'prop-types';
 import Button from './Button';
 
 import { ToLocalStorage, GetLocalStorage } from '../Helper/ToLocalStorage';
+import UrlIncludes from '../Helper/UrlIncludes';
 
 function BtnInitOrContinueRecipe({ id, url, ingredients }) {
   function startRecipe() {
     const storage = GetLocalStorage('inProgressRecipes');
+    const key = UrlIncludes(url, 'comidas', 'meals', 'cocktails');
 
     const ingredientsArray = ingredients.reduce((acc, { item }) => {
       if (item !== '' && item !== null) acc.push(item);
       return acc;
     }, []);
 
-    const recipeObject = url.includes('comidas')
-      ? { ...storage, meals: { ...storage.meals, [id]: ingredientsArray } }
-      : { ...storage, cocktails: { ...storage.cocktails, [id]: ingredientsArray } };
+    const recipeObject = {
+      ...storage, [key]: { ...storage[key], [id]: ingredientsArray },
+    };
 
     ToLocalStorage('inProgressRecipes', recipeObject);
   }
@@ -38,6 +40,9 @@ function BtnInitOrContinueRecipe({ id, url, ingredients }) {
           <Button
             className="footer-details"
             dataTestId="start-recipe-btn"
+            hasLink={ url.includes('comidas')
+              ? `/comidas/${id}/in-progress`
+              : `/bebidas/${id}/in-progress` }
           >
             Continuar Receita
           </Button>)
@@ -46,6 +51,9 @@ function BtnInitOrContinueRecipe({ id, url, ingredients }) {
             className="footer-details"
             dataTestId="start-recipe-btn"
             onClick={ startRecipe }
+            hasLink={ url.includes('comidas')
+              ? `/comidas/${id}/in-progress`
+              : `/bebidas/${id}/in-progress` }
           >
             Start Recipe
           </Button>);

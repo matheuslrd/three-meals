@@ -94,3 +94,7 @@
 .ingredients-container .recipe-card {
   max-width: none;
 }
+
+.dashed-ingredient {
+  text-decoration: none solid black;
+}
