@@ -12,34 +12,29 @@ import { GetLocalStorage } from '../Helper/ToLocalStorage';
 
 function Profile() {
   const [email, setEmail] = useState();
-  const [redirectToLogin, setRedirectToLogin] = useState(false);
 
   useEffect(() => {
     const user = GetLocalStorage('user');
     setEmail(user.email);
   }, []);
 
-  async function redirectLogin() {
-    async function clearLocalStorage() {
-      localStorage.clear();
-    }
-    await clearLocalStorage();
-
-    setRedirectToLogin(true);
+  function clearLocalStorage() {
+    localStorage.clear();
   }
 
   return (
     <main className="Profile">
-      { redirectToLogin && <Redirect to="/" /> }
       <Header
         disabledSearch
       >
         Perfil
       </Header>
+
       <article className="main-content">
         <section data-testid="profile-email">
           { email }
         </section>
+
         <section className="container-links">
           <Button
             className="profile-done-btn btns-links-profile"
@@ -60,12 +55,14 @@ function Profile() {
           <Button
             className="profile-favorite-btn btns-links-profile"
             dataTestId="profile-logout-btn"
-            onClick={ redirectLogin }
+            onClick={ clearLocalStorage }
+            hasLink="/"
           >
             Sair
           </Button>
         </section>
       </article>
+
       <Footer />
     </main>
   );
