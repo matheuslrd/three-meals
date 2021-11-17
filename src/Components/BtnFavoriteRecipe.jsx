@@ -11,15 +11,15 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 function BtnFavoriteRecipe({ id, url, foodData }) {
   const [iconFavorite, setIconFavorite] = useState(false);
 
-  function verifyRecipeInFavorites() {
-    const favoriteRecipes = GetLocalStorage('favoriteRecipes');
-    const inFavoriteOrNot = favoriteRecipes.some((recipe) => recipe.id === id);
-    return inFavoriteOrNot;
-  }
-
   useEffect(() => {
+    function verifyRecipeInFavorites() {
+      const favoriteRecipes = GetLocalStorage('favoriteRecipes');
+      const inFavoriteOrNot = favoriteRecipes.some((recipe) => recipe.id === id);
+      return inFavoriteOrNot;
+    }
+
     setIconFavorite(verifyRecipeInFavorites());
-  }, []);
+  }, [id]);
 
   function filterKeysRecipes(recipe) {
     const idRecipe = recipe.idMeal || recipe.idDrink;

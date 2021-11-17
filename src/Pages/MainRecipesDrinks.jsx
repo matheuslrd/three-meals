@@ -23,7 +23,7 @@ function MainRecipesDrinks() {
     if (!filterUrl.includes('cocktail')) {
       setFilterUrl(INITIAL_URL);
     }
-  }, []);
+  }, [filterUrl, setFilterUrl]);
 
   useEffect(() => {
     if (data.length > 0) {

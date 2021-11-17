@@ -8,18 +8,18 @@ import requestApi from '../Services/requestApi';
 function Carousel({ url }) {
   const [recommendedData, setRecommendedData] = useState([]);
 
-  async function requestRecommendedRecipes() {
-    const URL_API = url.includes('comidas')
-      ? 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
-      : 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-
-    const resolve = await requestApi(URL_API);
-    setRecommendedData(resolve.meals || resolve.drinks);
-  }
-
   useEffect(() => {
+    async function requestRecommendedRecipes() {
+      const URL_API = url.includes('comidas')
+        ? 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
+        : 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+
+      const resolve = await requestApi(URL_API);
+      setRecommendedData(resolve.meals || resolve.drinks);
+    }
+
     requestRecommendedRecipes();
-  }, []);
+  }, [url]);
 
   function showRecommendedCards() {
     const numMaxRecommendedRecipes = 6;

@@ -15,14 +15,6 @@ function Login() {
   const [state, setState] = useState(INITIAL_STATE);
   const { email, password, login } = state;
 
-  function createLocalStorageKeys() {
-    if (!localStorage.getItem('doneRecipes')) ToLocalStorage('doneRecipes', []);
-    if (!localStorage.getItem('favoriteRecipes')) ToLocalStorage('favoriteRecipes', []);
-    if (!localStorage.getItem('inProgressRecipes')) {
-      ToLocalStorage('inProgressRecipes', { cocktails: {}, meals: {} });
-    }
-  }
-
   function handleChange({ target: { name, value } }) {
     setState({ ...state, [name]: value });
   }
@@ -37,10 +29,6 @@ function Login() {
     setUser({ ...user, email });
     setState({ ...state, login: true });
   }
-
-  useEffect(() => {
-    createLocalStorageKeys();
-  }, []);
 
   return (
     <main className="login">

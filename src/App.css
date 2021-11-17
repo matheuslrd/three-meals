@@ -70,6 +70,10 @@
   padding-top: 25%;
 }
 
+.recipes-explorer select {
+  margin: 8px 0 16px;
+}
+
 .explorer-btn {
   margin-top: 20%;
 }

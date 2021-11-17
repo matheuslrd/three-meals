@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import requestApi from '../Services/requestApi';
+import { ToLocalStorage } from '../Helper/ToLocalStorage';
 
 export const MyContext = createContext();
 
@@ -19,6 +20,15 @@ function MyContextProvider({ children }) {
   const [filterUrl, setFilterUrl] = useState(INITIAL_URL);
   const [mealCategories, setMealCategories] = useState([]);
   const [drinkCategories, setDrinkCategories] = useState([]);
+  const [filtersByArea, setFilterByArea] = useState({});
+
+  function createLocalStorageKeys() {
+    if (!localStorage.getItem('doneRecipes')) ToLocalStorage('doneRecipes', []);
+    if (!localStorage.getItem('favoriteRecipes')) ToLocalStorage('favoriteRecipes', []);
+    if (!localStorage.getItem('inProgressRecipes')) {
+      ToLocalStorage('inProgressRecipes', { cocktails: {}, meals: {} });
+    }
+  }
 
   useEffect(() => {
     async function settingData() {
@@ -47,6 +57,10 @@ function MyContextProvider({ children }) {
     getCategories();
   }, []);
 
+  useEffect(() => {
+    createLocalStorageKeys();
+  }, []);
+
   const context = {
     data,
     user,
@@ -55,6 +69,8 @@ function MyContextProvider({ children }) {
     setFilterUrl,
     mealCategories,
     drinkCategories,
+    filtersByArea,
+    setFilterByArea,
   };
 
   return (

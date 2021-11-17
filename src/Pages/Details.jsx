@@ -18,21 +18,21 @@ function Details({ match: { url } }) {
   const { id } = useParams();
   const [foodData, setFoodData] = useState({});
 
-  async function fetchFood() {
-    const links = {
-      foodLink: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
-      drinkLink: `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
-    };
-
-    const URL_API = url.includes('comidas') ? links.foodLink : links.drinkLink;
-    const resolve = await requestApi(URL_API);
-    const fetchResult = resolve.meals || resolve.drinks;
-    setFoodData(fetchResult[0]);
-  }
-
   useEffect(() => {
+    async function fetchFood() {
+      const links = {
+        foodLink: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
+        drinkLink: `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
+      };
+
+      const URL_API = url.includes('comidas') ? links.foodLink : links.drinkLink;
+      const resolve = await requestApi(URL_API);
+      const fetchResult = resolve.meals || resolve.drinks;
+      setFoodData(fetchResult[0]);
+    }
+
     fetchFood();
-  }, []);
+  }, [id, url]);
 
   function getIngredients() {
     const keysFoodData = Object.keys(foodData);
@@ -60,10 +60,6 @@ function Details({ match: { url } }) {
           </li>)
     ));
   }
-
-  useEffect(() => {
-    filterIngredients();
-  }, [foodData]);
 
   return (
     <main className="details">
