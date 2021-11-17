@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Redirect } from 'react-router';
 
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
@@ -11,14 +12,25 @@ import { GetLocalStorage } from '../Helper/ToLocalStorage';
 
 function Profile() {
   const [email, setEmail] = useState();
+  const [redirectToLogin, setRedirectToLogin] = useState(false);
 
   useEffect(() => {
     const user = GetLocalStorage('user');
     setEmail(user.email);
   }, []);
 
+  async function redirectLogin() {
+    async function clearLocalStorage() {
+      localStorage.clear();
+    }
+    await clearLocalStorage();
+
+    setRedirectToLogin(true);
+  }
+
   return (
     <main className="Profile">
+      { redirectToLogin && <Redirect to="/" /> }
       <Header
         disabledSearch
       >
@@ -48,7 +60,7 @@ function Profile() {
           <Button
             className="profile-favorite-btn btns-links-profile"
             dataTestId="profile-logout-btn"
-            hasLink="/"
+            onClick={ redirectLogin }
           >
             Sair
           </Button>
