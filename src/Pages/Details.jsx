@@ -4,19 +4,19 @@ import { useParams } from 'react-router';
 
 import Carousel from '../Components/Carousel';
 import Button from '../Components/Button';
-import VideoIframe from '../Components/VideoIframe';
 import BtnFavoriteRecipe from '../Components/BtnFavoriteRecipe';
+import VideoIframe from '../Components/VideoIframe';
+import BtnInitOrContinueRecipe from '../Components/BtnInitOrContinueRecipe';
 
 import '../Styles/Details.css';
 
 import requestApi from '../Services/requestApi';
-import { ToLocalStorage, GetLocalStorage } from '../Helper/ToLocalStorage';
 // 178319 bebida
 // 52977 comida
 
 function Details({ match: { url } }) {
   const { id } = useParams();
-  const [foodData, setFoodData] = useState([]);
+  const [foodData, setFoodData] = useState({});
 
   async function fetchFood() {
     const links = {
@@ -65,54 +65,8 @@ function Details({ match: { url } }) {
     filterIngredients();
   }, [foodData]);
 
-  function startRecipe() {
-    const storage = GetLocalStorage('inProgressRecipes');
-    // { cocktails: {idDrink: [ingredients]}, meals: {} }
-
-    const urlCondition = url.includes('comidas');
-    const ingreditsArray = getIngredients().reduce((acc, { item }) => {
-      if (item !== '' && item !== null) acc.push(item);
-      return acc;
-    }, []);
-
-    const recipeObject = urlCondition
-      ? { ...storage, meals: { ...storage.meals, [id]: ingreditsArray } }
-      : { ...storage, cocktails: { ...storage.cocktails, [id]: ingreditsArray } };
-
-    ToLocalStorage('inProgressRecipes', recipeObject);
-  }
-
-  function verifyProgress() {
-    const doneRecipe = GetLocalStorage('doneRecipes');
-    const inProgress = GetLocalStorage('inProgressRecipes').cocktails[id]
-      || GetLocalStorage('inProgressRecipes').meals[id];
-
-    if (!doneRecipe.some((recipe) => recipe.id.toString() === id)) {
-      if (inProgress) {
-        return (
-          <Button
-            className="footer-details"
-          >
-            Continuar Receita
-          </Button>);
-      }
-
-      return (
-        <Button
-          className="footer-details"
-          dataTestId="start-recipe-btn"
-          onClick={ startRecipe }
-        >
-          Start Recipe
-        </Button>);
-    }
-
-    return null;
-  }
-
   return (
-    <main className="Details">
-      { console.log(getIngredients()) }
+    <main className="details">
       <section className="recipe-informations">
         <header className="header-details">
           <img
@@ -162,7 +116,11 @@ function Details({ match: { url } }) {
       <VideoIframe data={ foodData } />
       <Carousel url={ url } />
       <footer>
-        {verifyProgress()}
+        <BtnInitOrContinueRecipe
+          id={ id }
+          url={ url }
+          ingredients={ getIngredients() }
+        />
       </footer>
     </main>
   );
@@ -171,7 +129,6 @@ function Details({ match: { url } }) {
 Details.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string,
-    includes: PropTypes.func,
   }).isRequired,
 };
 

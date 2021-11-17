@@ -71,7 +71,7 @@ function BtnFavoriteRecipe({ id, url, foodData }) {
 BtnFavoriteRecipe.propTypes = {
   id: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
-  foodData: PropTypes.shape(PropTypes.any).isRequired,
+  foodData: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default BtnFavoriteRecipe;
