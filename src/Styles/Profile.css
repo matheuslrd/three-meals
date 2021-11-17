@@ -1,0 +1,21 @@
+.Profile {
+  height: 100%;
+  width: 100%;
+}
+
+.main-content {
+  align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  height: 84%;
+  margin-top: 15%;
+  width: 100%;
+}
+
+.container-links {
+  border: 1px solid blue;
+  display: flex;
+  flex-flow: column nowrap;
+  width: 80%;
+}
