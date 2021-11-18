@@ -14,7 +14,7 @@ function Profile() {
 
   useEffect(() => {
     const user = GetLocalStorage('user');
-    setEmail(user.email);
+    setEmail(user ? user.email : '');
   }, []);
 
   function clearLocalStorage() {
