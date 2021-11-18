@@ -14,12 +14,11 @@ function SearchBar({ textFilterPage }) {
   const { filterUrl, setFilterUrl, data } = useContext(MyContext);
 
   function verifyLengthRecipes() {
-    if (data.length === 1 && textFilterPage === 'Comidas') {
-      return <Redirect to={ `/comidas/${data[0].idMeal}` } />;
-    }
+    const idRecipe = data[0].idMeal || data[0].idDrink;
 
-    if (data.length === 1 && textFilterPage === 'Bebidas') {
-      return <Redirect to={ `/bebidas/${data[0].idDrink}` } />;
+    if (data.length === 1) {
+      const textFilterPageLowerCase = textFilterPage.toLowerCase();
+      return <Redirect to={ `/${textFilterPageLowerCase}/${idRecipe}` } />;
     }
   }
 
@@ -27,12 +26,12 @@ function SearchBar({ textFilterPage }) {
     let url = filterUrl;
 
     if (filterSelected === 'Ingrediente') {
-      url = textFilterPage === 'Comidas'
+      url = (textFilterPage === 'Comidas')
         ? `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchText}`
         : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchText}`;
     }
     if (filterSelected === 'Nome') {
-      url = textFilterPage === 'Comidas'
+      url = (textFilterPage === 'Comidas')
         ? `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`
         : `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchText}`;
     }
@@ -40,7 +39,7 @@ function SearchBar({ textFilterPage }) {
       if (searchText.length !== 1) {
         return global.alert('Sua busca deve conter somente 1 (um) caracter');
       }
-      url = textFilterPage === 'Comidas'
+      url = (textFilterPage === 'Comidas')
         ? `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchText}`
         : `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchText}`;
     }
