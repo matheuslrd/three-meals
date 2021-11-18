@@ -14,12 +14,11 @@ function SearchBar({ textFilterPage }) {
   const { filterUrl, setFilterUrl, data } = useContext(MyContext);
 
   function verifyLengthRecipes() {
-    if (data.length === 1 && textFilterPage === 'Comidas') {
-      return <Redirect to={ `/comidas/${data[0].idMeal}` } />;
-    }
+    const idRecipe = data[0].idMeal || data[0].idDrink;
 
-    if (data.length === 1 && textFilterPage === 'Bebidas') {
-      return <Redirect to={ `/bebidas/${data[0].idDrink}` } />;
+    if (data.length === 1) {
+      const textFilterPageLowerCase = textFilterPage.toLowerCase();
+      return <Redirect to={ `/${textFilterPageLowerCase}/${idRecipe}` } />;
     }
   }
 

@@ -1,16 +1,19 @@
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import '../Styles/Login.css';
+
 import { MyContext } from '../Context/MyContext';
 import DefaultInput from '../Components/DefaultInput';
+
 import { ToLocalStorage } from '../Helper/ToLocalStorage';
+
+import '../Styles/Login.css';
 
 function Login() {
   const RegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const length = 6;
   const INITIAL_STATE = { email: '', password: '', login: false };
 
-  const { user, setUser } = useContext(MyContext);
+  const { user, setUser, createLocalStorageKeys } = useContext(MyContext);
 
   const [state, setState] = useState(INITIAL_STATE);
   const { email, password, login } = state;
@@ -28,6 +31,7 @@ function Login() {
     ToLocalStorage('user', { email });
     setUser({ ...user, email });
     setState({ ...state, login: true });
+    createLocalStorageKeys();
   }
 
   return (
