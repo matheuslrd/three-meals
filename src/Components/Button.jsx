@@ -19,7 +19,7 @@ function Button({ children, className, dataTestId, id, onClick, src, hasLink }) 
     );
   }
   return (
-    hasLink.length > 1 ? (
+    hasLink.length > 0 ? (
       <Link to={ hasLink }>
         { getButton() }
       </Link>) : getButton()

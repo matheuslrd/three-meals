@@ -71,6 +71,7 @@ function MyContextProvider({ children }) {
     drinkCategories,
     filtersByArea,
     setFilterByArea,
+    createLocalStorageKeys,
   };
 
   return (
