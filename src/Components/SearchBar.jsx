@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+
 import { Redirect } from 'react-router-dom';
 
 import DefaultInput from './DefaultInput';
@@ -14,9 +15,9 @@ function SearchBar({ textFilterPage }) {
   const { filterUrl, setFilterUrl, data } = useContext(MyContext);
 
   function verifyLengthRecipes() {
-    const idRecipe = data[0].idMeal || data[0].idDrink;
-
     if (data.length === 1) {
+      const idRecipe = data[0].idMeal || data[0].idDrink;
+
       const textFilterPageLowerCase = textFilterPage.toLowerCase();
       return <Redirect to={ `/${textFilterPageLowerCase}/${idRecipe}` } />;
     }
