@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import GetIngredients from '../Helper/GetIngredients';
 import { GetLocalStorage, ToLocalStorage } from '../Helper/ToLocalStorage';
 import UrlIncludes from '../Helper/UrlIncludes';
 
-function RenderIngredientCheckboxes({ data, url, id }) {
-  const [update, setUpdate] = useState(false);
-
+function RenderIngredientCheckboxes({ data, url, id, setArrayState }) {
   const ingredientsToRender = GetIngredients(data);
+
+  useEffect(() => {
+    if (Object.keys(data).length > 0) {
+      const ingredientsArray = GetIngredients(data).reduce((acc, { item }) => {
+        if (item !== '' && item !== null) acc.push(item);
+        return acc;
+      }, []);
+
+      const key = UrlIncludes(url, 'comidas', 'meals', 'cocktails');
+      const inProgress = GetLocalStorage('inProgressRecipes');
+      const recipeInProgress = inProgress[key][id] || ingredientsArray;
+
+      setArrayState(recipeInProgress);
+    }
+  }, [data, id, setArrayState, url]);
 
   function checkIngredients(ingredient) {
     const inProgressRecipes = GetLocalStorage('inProgressRecipes')
@@ -42,7 +55,7 @@ function RenderIngredientCheckboxes({ data, url, id }) {
         },
       });
 
-      setUpdate(!update);
+      setArrayState(newInProgress.filter((item) => item !== ingredient));
     } else {
       ToLocalStorage('inProgressRecipes', {
         ...inProgress,
@@ -52,7 +65,7 @@ function RenderIngredientCheckboxes({ data, url, id }) {
         },
       });
 
-      setUpdate(!update);
+      setArrayState([...newInProgress, ingredient]);
     }
   }
 
@@ -80,6 +93,7 @@ RenderIngredientCheckboxes.propTypes = PropTypes.shape({
   data: PropTypes.objectOf(PropTypes.any),
   url: PropTypes.string,
   id: PropTypes.string,
+  setArrayState: PropTypes.func,
 }).isRequired;
 
 export default RenderIngredientCheckboxes;

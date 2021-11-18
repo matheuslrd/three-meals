@@ -96,5 +96,5 @@
 }
 
 .dashed-ingredient {
-  text-decoration: none solid black;
+  text-decoration: line-through solid black;
 }

@@ -3,15 +3,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function Button({ children, className, dataTestId, id, onClick, src, hasLink }) {
+function Button(props) {
+  const { children, className, dataTestId, id,
+    disabled, onClick, src, hasLink } = props;
+
   function getButton() {
     return (
       <button
-        className={ className }
-        data-testid={ dataTestId }
-        id={ id }
         type="button"
+        className={ className }
+        id={ id }
+        disabled={ disabled }
         onClick={ onClick }
+        data-testid={ dataTestId }
         src={ src }
       >
         { children }
@@ -31,15 +35,17 @@ Button.propTypes = {
   className: PropTypes.string,
   dataTestId: PropTypes.string,
   id: PropTypes.string,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func,
   src: PropTypes.string,
   hasLink: PropTypes.string,
 };
 
 Button.defaultProps = {
-  id: null,
-  className: null,
-  dataTestId: null,
+  id: '',
+  className: '',
+  dataTestId: '',
+  disabled: false,
   onClick: () => {},
   src: '',
   hasLink: '',

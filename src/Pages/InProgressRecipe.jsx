@@ -12,6 +12,7 @@ import RenderIngredientCheckboxes from '../Components/RenderIngredientCheckboxes
 function InProgressRecipe({ match: { url } }) {
   const { id } = useParams();
   const [foodData, setFoodData] = useState({});
+  const [remainingIngredients, setRemainingIngredients] = useState(['to disable btn']);
 
   useEffect(() => {
     async function fetchFood() {
@@ -75,6 +76,7 @@ function InProgressRecipe({ match: { url } }) {
             data={ foodData }
             url={ url }
             id={ id }
+            setArrayState={ setRemainingIngredients }
           />
         </ol>
 
@@ -86,6 +88,7 @@ function InProgressRecipe({ match: { url } }) {
 
       <footer>
         <Button
+          disabled={ remainingIngredients.length > 0 }
           dataTestId="finish-recipe-btn"
           hasLink="/receitas-feitas"
         >
