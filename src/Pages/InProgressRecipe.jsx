@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 
-import Carousel from '../Components/Carousel';
-import Button from '../Components/Button';
 import BtnFavoriteRecipe from '../Components/BtnFavoriteRecipe';
-import VideoIframe from '../Components/VideoIframe';
-import BtnInitOrContinueRecipe from '../Components/BtnInitOrContinueRecipe';
-
-import '../Styles/Details.css';
+import Button from '../Components/Button';
 
 import requestApi from '../Services/requestApi';
-import GetIngredients from '../Helper/GetIngredients';
 import UrlIncludes from '../Helper/UrlIncludes';
-// 178319 bebida
-// 52977 comida
+import RenderIngredientCheckboxes from '../Components/RenderIngredientCheckboxes';
 
-function Details({ match: { url } }) {
+function InProgressRecipe({ match: { url } }) {
   const { id } = useParams();
   const [foodData, setFoodData] = useState({});
+  const [remainingIngredients, setRemainingIngredients] = useState(['to disable btn']);
 
   useEffect(() => {
     async function fetchFood() {
@@ -27,7 +21,7 @@ function Details({ match: { url } }) {
         drinkLink: `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
       };
 
-      const URL_API = url.includes('comidas') ? links.foodLink : links.drinkLink;
+      const URL_API = UrlIncludes(url, 'comidas', links.foodLink, links.drinkLink);
       const resolve = await requestApi(URL_API);
       const fetchResult = resolve.meals || resolve.drinks;
       setFoodData(fetchResult[0]);
@@ -35,18 +29,6 @@ function Details({ match: { url } }) {
 
     fetchFood();
   }, [id, url]);
-
-  function filterIngredients() {
-    const ingredientsArray = GetIngredients(foodData);
-
-    return ingredientsArray.map(({ item, measure }, index) => (
-      item === '' || !item ? null
-        : (
-          <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-            {`${item}: ${measure || 'to taste'}`}
-          </li>)
-    ));
-  }
 
   return (
     <main className="details">
@@ -90,7 +72,12 @@ function Details({ match: { url } }) {
         </div>
 
         <ol>
-          { filterIngredients() }
+          <RenderIngredientCheckboxes
+            data={ foodData }
+            url={ url }
+            id={ id }
+            setArrayState={ setRemainingIngredients }
+          />
         </ol>
 
         <p data-testid="instructions">
@@ -99,23 +86,21 @@ function Details({ match: { url } }) {
         </p>
       </section>
 
-      <VideoIframe data={ foodData } />
-      <Carousel url={ url } />
       <footer>
-        <BtnInitOrContinueRecipe
-          id={ id }
-          url={ url }
-          ingredients={ GetIngredients(foodData) }
-        />
+        <Button
+          disabled={ remainingIngredients.length > 0 }
+          dataTestId="finish-recipe-btn"
+          hasLink="/receitas-feitas"
+        >
+          Finish Recipe
+        </Button>
       </footer>
     </main>
   );
 }
 
-Details.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string,
-  }).isRequired,
+InProgressRecipe.propTypes = {
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default Details;
+export default InProgressRecipe;
