@@ -1,4 +1,4 @@
-/* import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Header from '../../Components/Header';
 import ButtonsFilter from '../../Components/ButtonsFilter';
@@ -39,4 +39,3 @@ function RecipesMade() {
 }
 
 export default RecipesMade;
- */
