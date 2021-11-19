@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
-import BtnFavoriteRecipe from '../Components/BtnFavoriteRecipe';
-import Button from '../Components/Button';
-import RenderIngredientCheckboxes from '../Components/RenderIngredientCheckboxes';
+import Button from '../../Components/Button';
 
-import requestApi from '../Services/requestApi';
-import UrlIncludes from '../Helper/UrlIncludes';
-import { ToLocalStorage, GetLocalStorage } from '../Helper/ToLocalStorage';
+import Carousel from './components/Carousel';
+import BtnFavoriteRecipe from './components/BtnFavoriteRecipe';
+import VideoIframe from './components/VideoIframe';
+import BtnInitOrContinueRecipe from './components/BtnInitOrContinueRecipe';
 
-function InProgressRecipe({ match: { url } }) {
+import './styles/Details.css';
+
+import requestApi from '../../Services/requestApi';
+import GetIngredients from '../../Helper/GetIngredients';
+import UrlIncludes from '../../Helper/UrlIncludes';
+
+function Details({ match: { url } }) {
   const { id } = useParams();
   const [foodData, setFoodData] = useState({});
-  const [remainingIngredients, setRemainingIngredients] = useState(['to disable btn']);
 
   useEffect(() => {
     async function fetchFood() {
@@ -22,7 +26,7 @@ function InProgressRecipe({ match: { url } }) {
         drinkLink: `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
       };
 
-      const URL_API = UrlIncludes(url, 'comidas', links.foodLink, links.drinkLink);
+      const URL_API = url.includes('comidas') ? links.foodLink : links.drinkLink;
       const resolve = await requestApi(URL_API);
       const fetchResult = resolve.meals || resolve.drinks;
       setFoodData(fetchResult[0]);
@@ -31,31 +35,16 @@ function InProgressRecipe({ match: { url } }) {
     fetchFood();
   }, [id, url]);
 
-  function finishRecipe(recipe) {
-    const idRecipe = recipe.idMeal || recipe.idDrink;
-    const name = recipe.strMeal || recipe.strDrink;
-    const image = recipe.strMealThumb || recipe.strDrinkThumb;
-    const { strArea, strCategory: category, strAlcoholic,
-      strTags: tags } = recipe;
+  function filterIngredients() {
+    const ingredientsArray = GetIngredients(foodData);
 
-    const getDate = Date();
-    const date = new Date(getDate);
-    const doneDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-
-    const recipeObject = {
-      id: idRecipe,
-      type: UrlIncludes(url, 'comidas', 'comida', 'bebida'),
-      area: strArea || '',
-      category,
-      alcoholicOrNot: strAlcoholic || '',
-      name,
-      image,
-      doneDate,
-      tags,
-    };
-
-    const doneRecipes = GetLocalStorage('doneRecipes');
-    ToLocalStorage('doneRecipes', [...doneRecipes, recipeObject]);
+    return ingredientsArray.map(({ item, measure }, index) => (
+      item === '' || !item ? null
+        : (
+          <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
+            {`${item}: ${measure || 'to taste'}`}
+          </li>)
+    ));
   }
 
   return (
@@ -84,6 +73,7 @@ function InProgressRecipe({ match: { url } }) {
             id={ id }
             url={ url }
             foodData={ foodData }
+            dataTestId="favorite-btn"
           />
         </div>
 
@@ -100,12 +90,7 @@ function InProgressRecipe({ match: { url } }) {
         </div>
 
         <ol>
-          <RenderIngredientCheckboxes
-            data={ foodData }
-            url={ url }
-            id={ id }
-            setArrayState={ setRemainingIngredients }
-          />
+          { filterIngredients() }
         </ol>
 
         <p data-testid="instructions">
@@ -114,22 +99,23 @@ function InProgressRecipe({ match: { url } }) {
         </p>
       </section>
 
+      <VideoIframe data={ foodData } />
+      <Carousel url={ url } />
       <footer>
-        <Button
-          disabled={ remainingIngredients.length > 0 }
-          onClick={ () => finishRecipe(foodData) }
-          dataTestId="finish-recipe-btn"
-          hasLink="/receitas-feitas"
-        >
-          Finish Recipe
-        </Button>
+        <BtnInitOrContinueRecipe
+          id={ id }
+          url={ url }
+          ingredients={ GetIngredients(foodData) }
+        />
       </footer>
     </main>
   );
 }
 
-InProgressRecipe.propTypes = {
-  match: PropTypes.objectOf(PropTypes.any).isRequired,
+Details.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string,
+  }).isRequired,
 };
 
-export default InProgressRecipe;
+export default Details;

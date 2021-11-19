@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import ButtonsFilter from '../Components/ButtonsFilter';
 
-import CardRecipeFavorite from '../Components/CardRecipeFavorite';
-import Header from '../Components/Header';
+import ButtonsFilter from '../../Components/ButtonsFilter';
+import CardRecipeFavorite from './components/CardRecipeFavorite';
+import Header from '../../Components/Header';
 
-import { GetLocalStorage } from '../Helper/ToLocalStorage';
+import { GetLocalStorage } from '../../Helper/ToLocalStorage';
 
-import '../Styles/favoriteRecipes.css';
+import './styles/favoriteRecipes.css';
 
 function FavoritesRecipes() {
   const [favoritesRecipes, setFavoritesRecipes] = useState([]);
@@ -19,16 +19,14 @@ function FavoritesRecipes() {
 
   return (
     <main className="FavoritesRecipes">
-      <Header
-        disabledSearch
-      >
+      <Header disabledSearch>
         Receitas Favoritas
       </Header>
 
       <article className="main-content-favorite-recipes">
         <ButtonsFilter
           setArray={ setFavoritesRecipes }
-          keyLocalStorage="favoriteRecipes"
+          localStorageKey="favoriteRecipes"
         />
 
         <section className="recipes-container">

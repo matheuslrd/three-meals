@@ -6,12 +6,13 @@ import Button from './Button';
 
 import { GetLocalStorage } from '../Helper/ToLocalStorage';
 
-export default function ButtonsFilter({ setArray, keyLocalStorage }) {
+export default function ButtonsFilter({ setArray, localStorageKey }) {
   const [originalArray, setOriginalArray] = useState([]);
 
   useEffect(() => {
-    setOriginalArray(GetLocalStorage(keyLocalStorage));
-  }, []);
+    const getRecipes = GetLocalStorage(localStorageKey);
+    setOriginalArray(getRecipes);
+  }, [localStorageKey]);
 
   function filterByFood() {
     const recipesFilteredByFood = originalArray.filter(({ type }) => type === 'comida');
@@ -24,7 +25,7 @@ export default function ButtonsFilter({ setArray, keyLocalStorage }) {
   }
 
   return (
-    <div className="container-buttons-filter">
+    <nav className="container-buttons-filter">
       <Button
         className="btn-filter"
         dataTestId="filter-by-all-btn"
@@ -48,12 +49,12 @@ export default function ButtonsFilter({ setArray, keyLocalStorage }) {
       >
         Drinks
       </Button>
-    </div>
+    </nav>
   );
 }
 
 ButtonsFilter.propTypes = {
-  keyLocalStorage: PropTypes.string.isRequired,
+  localStorageKey: PropTypes.string.isRequired,
   setArray: PropTypes.func,
 };
 

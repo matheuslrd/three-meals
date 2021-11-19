@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Header from '../Components/Header';
-import Button from '../Components/Button';
-import CardRecipe from '../Components/CardRecipe';
-import Footer from '../Components/Footer';
+import Header from '../../Components/Header';
+import Button from '../../Components/Button';
+import CardRecipe from '../../Components/CardRecipe';
+import Footer from '../../Components/Footer';
 
-import { MyContext } from '../Context/MyContext';
-import requestApi from '../Services/requestApi';
+import { MyContext } from '../../Context/MyContext';
+import requestApi from '../../Services/requestApi';
 
 function IngredientExplorer({ match: { url } }) {
   const [ingredients, setIngredients] = useState([]);

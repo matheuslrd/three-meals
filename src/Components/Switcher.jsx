@@ -2,20 +2,20 @@ import React from 'react';
 
 import { Switch, Route } from 'react-router-dom';
 
-import Login from '../Pages/Login';
-import MainRecipesFood from '../Pages/MainRecipesFood';
-import Details from '../Pages/Details';
-import RecipesExplorer from '../Pages/RecipesExplorer';
-import DrinksExplorer from '../Pages/DrinksExplorer';
-import FoodExplorer from '../Pages/FoodExplorer';
-import IngredientExplorer from '../Pages/IngredientExplorer';
-import AreaExplorer from '../Pages/AreaExplorer';
-import Profile from '../Pages/Profile';
-import RecipesMade from '../Pages/RecipesMade';
-import NotFound from '../Pages/NotFound';
-import MainRecipesDrinks from '../Pages/MainRecipesDrinks';
-import FavoritesRecipes from '../Pages/FavoritesRecipes';
-import InProgressRecipe from '../Pages/InProgressRecipe';
+import Login from '../Pages/Login/index';
+import MainRecipesFood from '../Pages/MainRecipesFood/index';
+import Details from '../Pages/Details/index';
+import RecipesExplorer from '../Pages/RecipesExplorer/index';
+import DrinksExplorer from '../Pages/DrinksExplorer/index';
+import FoodExplorer from '../Pages/FoodExplorer/index';
+import IngredientExplorer from '../Pages/IngredientExplorer/index';
+import AreaExplorer from '../Pages/AreaExplorer/index';
+import Profile from '../Pages/Profile/index';
+import DoneRecipes from '../Pages/DoneRecipes/index';
+import NotFound from '../Pages/NotFound/index';
+import MainRecipesDrinks from '../Pages/MainRecipesDrinks/index';
+import FavoritesRecipes from '../Pages/FavoritesRecipes/index';
+import InProgressRecipe from '../Pages/InProgressRecipe/index';
 
 function Switcher() {
   return (
@@ -52,7 +52,7 @@ function Switcher() {
 
       <Route exact path="/comidas" component={ MainRecipesFood } />
 
-      <Route exact path="/receitas-feitas" component={ RecipesMade } />
+      <Route exact path="/receitas-feitas" component={ DoneRecipes } />
 
       <Route exact path="/receitas-favoritas" component={ FavoritesRecipes } />
 

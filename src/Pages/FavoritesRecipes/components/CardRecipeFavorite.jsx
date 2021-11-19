@@ -2,12 +2,12 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import Button from './Button';
+import Button from '../../../Components/Button';
 
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../../../images/blackHeartIcon.svg';
+import shareIcon from '../../../images/shareIcon.svg';
 
-import { ToLocalStorage, GetLocalStorage } from '../Helper/ToLocalStorage';
+import { ToLocalStorage, GetLocalStorage } from '../../../Helper/ToLocalStorage';
 
 export default function CardRecipeFavorite({ recipe, index, setFavoritesRecipes }) {
   const { image, category, name, id, area, type, alcoholicOrNot } = recipe;

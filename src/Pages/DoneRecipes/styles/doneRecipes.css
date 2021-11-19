@@ -1,0 +1,19 @@
+.done-recipes-section {
+  margin-top: 20%;
+}
+
+.container-buttons-filter {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.done-recipe-card {
+  display: flex;
+  margin-top: 5%;
+  width: 85%;
+}
+
+.done-recipe-card img {
+  width: 45%;
+}
