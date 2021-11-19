@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import copy from 'clipboard-copy';
+
+import ShareBtn from '../../images/shareIcon.svg';
 
 import BtnFavoriteRecipe from '../Details/components/BtnFavoriteRecipe';
 import Button from '../../Components/Button';
@@ -9,11 +12,13 @@ import RenderIngredientCheckboxes from './components/RenderIngredientCheckboxes'
 import requestApi from '../../Services/requestApi';
 import UrlIncludes from '../../Helper/UrlIncludes';
 import { ToLocalStorage, GetLocalStorage } from '../../Helper/ToLocalStorage';
+import GetObjectToFavorite from '../../Helper/GetObjectToFavorite';
 
 function InProgressRecipe({ match: { url } }) {
   const { id } = useParams();
   const [foodData, setFoodData] = useState({});
   const [remainingIngredients, setRemainingIngredients] = useState(['to disable btn']);
+  const [shareLink, setShareLink] = useState(false);
 
   useEffect(() => {
     async function fetchFood() {
@@ -36,7 +41,7 @@ function InProgressRecipe({ match: { url } }) {
     const name = recipe.strMeal || recipe.strDrink;
     const image = recipe.strMealThumb || recipe.strDrinkThumb;
     const { strArea, strCategory: category, strAlcoholic,
-      strTags: tags } = recipe;
+      strTags } = recipe;
 
     const getDate = Date();
     const date = new Date(getDate);
@@ -51,11 +56,21 @@ function InProgressRecipe({ match: { url } }) {
       name,
       image,
       doneDate,
-      tags,
+      tags: strTags ? strTags.split(', ') : [],
     };
 
     const doneRecipes = GetLocalStorage('doneRecipes');
     ToLocalStorage('doneRecipes', [...doneRecipes, recipeObject]);
+  }
+
+  function copyLink() {
+    const TIMEOUT = 3500;
+    const recipeObj = GetObjectToFavorite(foodData, url);
+
+    copy(`http://localhost:3000/${recipeObj.type}s/${recipeObj.id}`);
+
+    setShareLink(true);
+    setTimeout(() => setShareLink(false), TIMEOUT);
   }
 
   return (
@@ -77,8 +92,13 @@ function InProgressRecipe({ match: { url } }) {
         </header>
 
         <div className="share-and-favorite">
-          <Button dataTestId="share-btn">
-            Share
+          <Button
+            onClick={ copyLink }
+            src={ ShareBtn }
+            dataTestId="share-btn"
+          >
+            { shareLink
+              ? 'Link copiado!' : <img src={ ShareBtn } alt="Compartilhe!" /> }
           </Button>
           <BtnFavoriteRecipe
             id={ id }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Header from '../../Components/Header';
 import ButtonsFilter from '../../Components/ButtonsFilter';
-import DoneRecipeCard from '../InProgressRecipe/components/DoneRecipeCard';
+import DoneRecipeCard from './components/DoneRecipeCard';
 
 import { GetLocalStorage } from '../../Helper/ToLocalStorage';
 
@@ -28,7 +28,9 @@ function RecipesMade() {
         />
         {doneRecipesData.length > 0 && doneRecipesData.map((recipe, ind) => (
           <DoneRecipeCard
-
+            key={ recipe.id }
+            recipeData={ recipe }
+            index={ ind }
           />
         )) }
       </section>

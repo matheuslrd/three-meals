@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
+import copy from 'clipboard-copy';
 
-import Button from '../../Components/Button';
+import ShareBtn from '../../images/shareIcon.svg';
 
 import Carousel from './components/Carousel';
 import BtnFavoriteRecipe from './components/BtnFavoriteRecipe';
+import Button from '../../Components/Button';
 import VideoIframe from './components/VideoIframe';
 import BtnInitOrContinueRecipe from './components/BtnInitOrContinueRecipe';
 
@@ -18,6 +20,8 @@ import UrlIncludes from '../../Helper/UrlIncludes';
 function Details({ match: { url } }) {
   const { id } = useParams();
   const [foodData, setFoodData] = useState({});
+  const [shareLink, setShareLink] = useState(false);
+  console.log(url);
 
   useEffect(() => {
     async function fetchFood() {
@@ -47,6 +51,15 @@ function Details({ match: { url } }) {
     ));
   }
 
+  function copyLink() {
+    const TIMEOUT = 3500;
+
+    copy(`http://localhost:3000${url}`);
+
+    setShareLink(true);
+    setTimeout(() => setShareLink(false), TIMEOUT);
+  }
+
   return (
     <main className="details">
       <section className="recipe-informations">
@@ -66,8 +79,13 @@ function Details({ match: { url } }) {
         </header>
 
         <div className="share-and-favorite">
-          <Button dataTestId="share-btn">
-            Share
+          <Button
+            onClick={ copyLink }
+            dataTestId="share-btn"
+            src={ ShareBtn }
+          >
+            { shareLink
+              ? 'Link copiado!' : <img src={ ShareBtn } alt="Compartilhe!" /> }
           </Button>
           <BtnFavoriteRecipe
             id={ id }
