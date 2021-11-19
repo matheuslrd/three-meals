@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { ToLocalStorage, GetLocalStorage } from '../Helper/ToLocalStorage';
+import { ToLocalStorage, GetLocalStorage } from '../../../Helper/ToLocalStorage';
+import GetObjectToFavorite from '../../../Helper/GetObjectToFavorite';
 
-import Button from './Button';
+import Button from '../../../Components/Button';
 
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../../images/blackHeartIcon.svg';
 
-function BtnFavoriteRecipe({ id, url, foodData }) {
+function BtnFavoriteRecipe({ id, dataTestId, url, foodData }) {
   const [iconFavorite, setIconFavorite] = useState(false);
 
   useEffect(() => {
@@ -21,26 +22,9 @@ function BtnFavoriteRecipe({ id, url, foodData }) {
     setIconFavorite(verifyRecipeInFavorites());
   }, [id]);
 
-  function filterKeysRecipes(recipe) {
-    const idRecipe = recipe.idMeal || recipe.idDrink;
-    const name = recipe.strMeal || recipe.strDrink;
-    const image = recipe.strMealThumb || recipe.strDrinkThumb;
-    const { strArea, strCategory } = recipe;
-
-    return {
-      id: idRecipe,
-      type: url.includes('comidas') ? 'comida' : 'bebida',
-      area: strArea || '',
-      category: strCategory,
-      alcoholicOrNot: url.includes('comidas') ? '' : recipe.strAlcoholic,
-      name,
-      image,
-    };
-  }
-
   function addToFavorite() {
     const favoriteRecipes = GetLocalStorage('favoriteRecipes') || [];
-    const newRecipe = filterKeysRecipes(foodData);
+    const newRecipe = GetObjectToFavorite(foodData, url);
 
     setIconFavorite(!iconFavorite);
 
@@ -58,7 +42,7 @@ function BtnFavoriteRecipe({ id, url, foodData }) {
 
   return (
     <Button
-      dataTestId="favorite-btn"
+      dataTestId={ dataTestId }
       onClick={ addToFavorite }
       src={ iconFavorite ? blackHeartIcon : whiteHeartIcon }
     >
@@ -69,6 +53,7 @@ function BtnFavoriteRecipe({ id, url, foodData }) {
 
 BtnFavoriteRecipe.propTypes = {
   id: PropTypes.string.isRequired,
+  dataTestId: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   foodData: PropTypes.objectOf(PropTypes.any).isRequired,
 };

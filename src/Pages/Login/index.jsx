@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { MyContext } from '../Context/MyContext';
-import DefaultInput from '../Components/DefaultInput';
+import { MyContext } from '../../Context/MyContext';
+import DefaultInput from '../../Components/DefaultInput';
 
-import { ToLocalStorage } from '../Helper/ToLocalStorage';
+import { ToLocalStorage } from '../../Helper/ToLocalStorage';
 
-import '../Styles/Login.css';
+import './styles/Login.css';
 
 function Login() {
   const RegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;

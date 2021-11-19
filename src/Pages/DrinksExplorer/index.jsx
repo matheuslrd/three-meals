@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import Header from '../Components/Header';
-import Button from '../Components/Button';
-import Footer from '../Components/Footer';
+import Header from '../../Components/Header';
+import Button from '../../Components/Button';
+import Footer from '../../Components/Footer';
 
-import requestApi from '../Services/requestApi';
+import requestApi from '../../Services/requestApi';
 
 function DrinksExplorer() {
   const [randomRecipe, setRandomRecipe] = useState({});

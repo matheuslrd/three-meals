@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from './Button';
+import Button from '../../../Components/Button';
 
-import { ToLocalStorage, GetLocalStorage } from '../Helper/ToLocalStorage';
-import UrlIncludes from '../Helper/UrlIncludes';
+import { ToLocalStorage, GetLocalStorage } from '../../../Helper/ToLocalStorage';
+import UrlIncludes from '../../../Helper/UrlIncludes';
 
 function BtnInitOrContinueRecipe({ id, url, ingredients }) {
   function startRecipe() {

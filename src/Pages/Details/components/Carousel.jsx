@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import CardRecipe from './CardRecipe';
+import CardRecipe from '../../../Components/CardRecipe';
 
-import requestApi from '../Services/requestApi';
+import requestApi from '../../../Services/requestApi';
 
 function Carousel({ url }) {
   const [recommendedData, setRecommendedData] = useState([]);
