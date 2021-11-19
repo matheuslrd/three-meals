@@ -20,7 +20,6 @@ function Details({ match: { url }, history: { goBack } }) {
   const { id } = useParams();
   const [foodData, setFoodData] = useState({});
   const [shareLink, setShareLink] = useState(false);
-  console.log(url);
 
   useEffect(() => {
     async function fetchFood() {
@@ -135,7 +134,7 @@ Details.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string,
   }).isRequired,
-  history: PropTypes.shape(PropTypes.func).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default Details;
