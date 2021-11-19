@@ -12,7 +12,7 @@ function FavoritesRecipes() {
   const [favoritesRecipes, setFavoritesRecipes] = useState([]);
 
   useEffect(() => {
-    const favoriteRecipesStorage = GetLocalStorage('favoriteRecipes');
+    const favoriteRecipesStorage = GetLocalStorage('favoriteRecipes') || [];
 
     setFavoritesRecipes(favoriteRecipesStorage);
   }, []);

@@ -12,7 +12,7 @@ function RecipesMade() {
   const [doneRecipesData, setDoneRecipesData] = useState([]);
 
   useEffect(() => {
-    const doneRecipesStore = GetLocalStorage('doneRecipes');
+    const doneRecipesStore = GetLocalStorage('doneRecipes') || [];
     setDoneRecipesData(doneRecipesStore);
   }, []);
 
