@@ -4,10 +4,11 @@ import { useParams } from 'react-router-dom';
 
 import BtnFavoriteRecipe from '../Components/BtnFavoriteRecipe';
 import Button from '../Components/Button';
+import RenderIngredientCheckboxes from '../Components/RenderIngredientCheckboxes';
 
 import requestApi from '../Services/requestApi';
 import UrlIncludes from '../Helper/UrlIncludes';
-import RenderIngredientCheckboxes from '../Components/RenderIngredientCheckboxes';
+import { ToLocalStorage, GetLocalStorage } from '../Helper/ToLocalStorage';
 
 function InProgressRecipe({ match: { url } }) {
   const { id } = useParams();
@@ -29,6 +30,33 @@ function InProgressRecipe({ match: { url } }) {
 
     fetchFood();
   }, [id, url]);
+
+  function finishRecipe(recipe) {
+    const idRecipe = recipe.idMeal || recipe.idDrink;
+    const name = recipe.strMeal || recipe.strDrink;
+    const image = recipe.strMealThumb || recipe.strDrinkThumb;
+    const { strArea, strCategory: category, strAlcoholic,
+      strTags: tags } = recipe;
+
+    const getDate = Date();
+    const date = new Date(getDate);
+    const doneDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+
+    const recipeObject = {
+      id: idRecipe,
+      type: UrlIncludes(url, 'comidas', 'comida', 'bebida'),
+      area: strArea || '',
+      category,
+      alcoholicOrNot: strAlcoholic || '',
+      name,
+      image,
+      doneDate,
+      tags,
+    };
+
+    const doneRecipes = GetLocalStorage('doneRecipes');
+    ToLocalStorage('doneRecipes', [...doneRecipes, recipeObject]);
+  }
 
   return (
     <main className="details">
@@ -89,6 +117,7 @@ function InProgressRecipe({ match: { url } }) {
       <footer>
         <Button
           disabled={ remainingIngredients.length > 0 }
+          onClick={ () => finishRecipe(foodData) }
           dataTestId="finish-recipe-btn"
           hasLink="/receitas-feitas"
         >

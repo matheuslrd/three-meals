@@ -1,0 +1,19 @@
+.FavoritesRecipes {
+  height: 100%;
+  width: 100%;
+}
+
+.main-content-favorite-recipes {
+  border: 1px solid red;
+  margin-top: 15%;
+  height: 93%;
+  width: 100%;
+}
+
+.recipe-favorite {
+  border: 1px solid blue;
+}
+
+.img-recipe-favorite {
+  width: 50px;
+}

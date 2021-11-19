@@ -74,6 +74,7 @@ function Details({ match: { url } }) {
             id={ id }
             url={ url }
             foodData={ foodData }
+            dataTestId="favorite-btn"
           />
         </div>
 
