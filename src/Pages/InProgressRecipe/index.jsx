@@ -14,7 +14,7 @@ import UrlIncludes from '../../Helper/UrlIncludes';
 import { ToLocalStorage, GetLocalStorage } from '../../Helper/ToLocalStorage';
 import GetObjectToFavorite from '../../Helper/GetObjectToFavorite';
 
-function InProgressRecipe({ match: { url } }) {
+function InProgressRecipe({ match: { url }, history: { goBack } }) {
   const { id } = useParams();
   const [foodData, setFoodData] = useState({});
   const [remainingIngredients, setRemainingIngredients] = useState(['to disable btn']);
@@ -77,7 +77,7 @@ function InProgressRecipe({ match: { url } }) {
     <main className="details">
       <section className="recipe-informations">
         <header className="header-details">
-          <Button hasLink={ UrlIncludes(url, 'comidas', '/comidas', '/bebidas') }>
+          <Button onClick={ () => goBack() }>
             ↶
           </Button>
           <img
@@ -150,6 +150,7 @@ function InProgressRecipe({ match: { url } }) {
 
 InProgressRecipe.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.shape(PropTypes.func).isRequired,
 };
 
 export default InProgressRecipe;

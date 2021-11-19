@@ -1,26 +1,12 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-import Button from '../../../Components/Button';
-
-import blackHeartIcon from '../../../images/blackHeartIcon.svg';
-import shareIcon from '../../../images/shareIcon.svg';
-
-import { ToLocalStorage, GetLocalStorage } from '../../../Helper/ToLocalStorage';
+import BtnsFavoriteAndShare from './BtnsFavoriteAndShare';
 
 export default function CardRecipeFavorite({ recipe, index, setFavoritesRecipes }) {
   const { image, category, name, id, area, type, alcoholicOrNot } = recipe;
-
-  function removeFavorite() {
-    const favoriteRecipes = GetLocalStorage('favoriteRecipes') || [];
-
-    const listFavoritesRemoveRecipe = favoriteRecipes
-      .filter((recipeItem) => recipeItem.id !== id);
-
-    ToLocalStorage('favoriteRecipes', listFavoritesRemoveRecipe);
-    setFavoritesRecipes(listFavoritesRemoveRecipe);
-  }
 
   const categoryAndArea = (
     <p data-testid={ `${index}-horizontal-top-text` }>
@@ -36,39 +22,39 @@ export default function CardRecipeFavorite({ recipe, index, setFavoritesRecipes 
 
   return (
     <div className="recipe-favorite">
-      <section className="container-img">
-        <img
-          alt={ `Foto ${name}` }
-          className="img-recipe-favorite"
-          data-testid={ `${index}-horizontal-image` }
-          src={ image }
-        />
-      </section>
+
+      <Link to={ `${type}s/${id}` }>
+        <section className="container-img">
+          <img
+            alt={ `Foto ${name}` }
+            className="img-recipe-favorite"
+            data-testid={ `${index}-horizontal-image` }
+            src={ image }
+          />
+        </section>
+      </Link>
 
       <section className="recipe-infos">
-        <h2 data-testid={ `${index}-horizontal-name` }>
-          { name }
-        </h2>
+        <Link to={ `${type}s/${id}` }>
+          <h2 data-testid={ `${index}-horizontal-name` }>
+            { name }
+          </h2>
+        </Link>
+
         <div className="category-or-alcoholic">
           { type === 'comida' ? categoryAndArea : alcoholic }
         </div>
-        <div className="btns-favorite-share">
-          <Button
-            dataTestId={ `${index}-horizontal-share-btn` }
-            src={ shareIcon }
-          >
-            <img src={ shareIcon } alt="share" />
-          </Button>
 
-          <Button
-            dataTestId={ `${index}-horizontal-favorite-btn` }
-            src={ blackHeartIcon }
-            onClick={ removeFavorite }
-          >
-            <img src={ blackHeartIcon } alt="favorite" />
-          </Button>
+        <div className="btns-favorite-share">
+          <BtnsFavoriteAndShare
+            id={ id }
+            index={ index }
+            setFavoritesRecipes={ setFavoritesRecipes }
+            type={ type }
+          />
         </div>
       </section>
+
     </div>
   );
 }
