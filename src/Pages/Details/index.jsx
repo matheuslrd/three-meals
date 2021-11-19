@@ -13,9 +13,8 @@ import './styles/Details.css';
 
 import requestApi from '../../Services/requestApi';
 import GetIngredients from '../../Helper/GetIngredients';
-import UrlIncludes from '../../Helper/UrlIncludes';
 
-function Details({ match: { url } }) {
+function Details({ match: { url }, history: { goBack } }) {
   const { id } = useParams();
   const [foodData, setFoodData] = useState({});
 
@@ -51,7 +50,9 @@ function Details({ match: { url } }) {
     <main className="details">
       <section className="recipe-informations">
         <header className="header-details">
-          <Button hasLink={ UrlIncludes(url, 'comidas', '/comidas', '/bebidas') }>
+          <Button
+            onClick={ () => goBack() }
+          >
             ↶
           </Button>
           <img
@@ -116,6 +117,7 @@ Details.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string,
   }).isRequired,
+  history: PropTypes.shape(PropTypes.func).isRequired,
 };
 
 export default Details;

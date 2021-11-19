@@ -33,10 +33,10 @@ function FavoritesRecipes() {
           {
             favoritesRecipes.map((recipe, index) => (
               <CardRecipeFavorite
-                setFavoritesRecipes={ setFavoritesRecipes }
+                index={ index }
                 key={ index }
                 recipe={ recipe }
-                index={ index }
+                setFavoritesRecipes={ setFavoritesRecipes }
               />
             ))
           }

@@ -10,8 +10,13 @@
   width: 100%;
 }
 
+.title-page {
+  font-size: 1em;
+}
+
 .recipe-favorite {
   border: 1px solid blue;
+  width: 50%;
 }
 
 .img-recipe-favorite {
