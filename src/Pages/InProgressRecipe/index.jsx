@@ -102,6 +102,7 @@ function InProgressRecipe({ match: { url }, history: { goBack } }) {
           </Button>
           <BtnFavoriteRecipe
             id={ id }
+            dataTestId="favorite-btn"
             url={ url }
             foodData={ foodData }
           />
