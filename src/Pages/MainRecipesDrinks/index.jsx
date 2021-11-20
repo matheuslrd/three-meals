@@ -1,26 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import CardRecipe from '../Components/CardRecipe';
-import Footer from '../Components/Footer';
-import Header from '../Components/Header';
+import Header from '../../Components/Header';
+import CardRecipe from '../../Components/CardRecipe';
+import Footer from '../../Components/Footer';
 
-import { MyContext } from '../Context/MyContext';
-import requestApi from '../Services/requestApi';
+import { MyContext } from '../../Context/MyContext';
+import requestApi from '../../Services/requestApi';
 
-function MainRecipes() {
-  const { data, filterUrl, setFilterUrl, mealCategories } = useContext(MyContext);
+function MainRecipesDrinks() {
+  const { data, filterUrl, setFilterUrl, drinkCategories } = useContext(MyContext);
   const [selectedFilter, setSelectedFilter] = useState('');
   const [filters, setFilters] = useState({});
   const [recipes, setRecipes] = useState([]);
 
-  const CATEGORY_URL = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
-  const INITIAL_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const CATEGORY_URL = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
+  const INITIAL_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
   const maxLength = 5;
   const maxIndex = 12;
 
   useEffect(() => {
-    if (!filterUrl.includes('meal')) {
+    if (!filterUrl.includes('cocktail')) {
       setFilterUrl(INITIAL_URL);
     }
   }, [filterUrl, setFilterUrl]);
@@ -33,24 +33,24 @@ function MainRecipes() {
 
   useEffect(() => {
     const categoriesArray = {};
-    if (mealCategories.length > 0) {
-      mealCategories.forEach((category) => {
+    if (drinkCategories.length > 0) {
+      drinkCategories.forEach((category) => {
         categoriesArray[category] = [];
       });
       setFilters(categoriesArray);
     }
-  }, [mealCategories]);
+  }, [drinkCategories]);
 
   async function handleFilter(category) {
     function getFilteredRecipes() {
       return requestApi(`${CATEGORY_URL}${category}`)
         .then((result) => {
-          setFilters({ ...filters, [category]: result.meals });
-          return result.meals;
+          setFilters({ ...filters, [category]: result.drinks });
+          return result.drinks;
         });
     }
 
-    let filterResult;
+    let filterResult = [...data];
     if (category === selectedFilter) {
       filterResult = [...data];
 
@@ -69,7 +69,7 @@ function MainRecipes() {
   return (
     <main className="main-recipes">
       <Header>
-        Comidas
+        Bebidas
       </Header>
       <section className="recipes-filter">
         <button
@@ -79,7 +79,7 @@ function MainRecipes() {
         >
           All
         </button>
-        { mealCategories.length > 0 && mealCategories.map((category, ind) => (
+        { drinkCategories.length > 0 && drinkCategories.map((category, ind) => (
           ind < maxLength ? (
             <button
               key={ category }
@@ -92,19 +92,19 @@ function MainRecipes() {
           ) : null
         )) }
       </section>
+
       <section className="recipes-section">
         { recipes.length > 0 && recipes.slice(0, maxIndex)
-          .map(({ idMeal, strMeal, strMealThumb }, index) => (
+          .map(({ idDrink, strDrink, strDrinkThumb }, index) => (
             <CardRecipe
-              key={ `${index}${idMeal}` }
-              pathName="/comidas"
-              id={ idMeal }
-              index={ index }
+              key={ `${index}${idDrink}` }
+              pathName="/bebidas"
+              id={ idDrink }
               testId={ `${index}-recipe-card` }
               testIdTitle={ `${index}-card-name` }
               testIdImg={ `${index}-card-img` }
-              recipeImg={ strMealThumb }
-              recipeName={ strMeal }
+              recipeImg={ strDrinkThumb }
+              recipeName={ strDrink }
             />
           )) }
       </section>
@@ -113,4 +113,4 @@ function MainRecipes() {
   );
 }
 
-export default MainRecipes;
+export default MainRecipesDrinks;

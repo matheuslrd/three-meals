@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import Header from '../Components/Header';
-import Footer from '../Components/Footer';
+import Header from '../../Components/Header';
+import Footer from '../../Components/Footer';
 
-import { MyContext } from '../Context/MyContext';
-import requestApi from '../Services/requestApi';
-import CardRecipe from '../Components/CardRecipe';
+import { MyContext } from '../../Context/MyContext';
+import requestApi from '../../Services/requestApi';
+import CardRecipe from '../../Components/CardRecipe';
 
 function AreaExplorer() {
   const { data, filtersByArea, setFilterByArea } = useContext(MyContext);

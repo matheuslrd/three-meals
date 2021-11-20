@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import copy from 'clipboard-copy';
 
-import BtnFavoriteRecipe from '../Components/BtnFavoriteRecipe';
-import Button from '../Components/Button';
+import ShareBtn from '../../images/shareIcon.svg';
 
-import requestApi from '../Services/requestApi';
-import UrlIncludes from '../Helper/UrlIncludes';
-import RenderIngredientCheckboxes from '../Components/RenderIngredientCheckboxes';
+import BtnFavoriteRecipe from '../Details/components/BtnFavoriteRecipe';
+import Button from '../../Components/Button';
+import RenderIngredientCheckboxes from './components/RenderIngredientCheckboxes';
 
-function InProgressRecipe({ match: { url } }) {
+import requestApi from '../../Services/requestApi';
+import UrlIncludes from '../../Helper/UrlIncludes';
+import { ToLocalStorage, GetLocalStorage } from '../../Helper/ToLocalStorage';
+import GetObjectToFavorite from '../../Helper/GetObjectToFavorite';
+
+function InProgressRecipe({ match: { url }, history: { goBack } }) {
   const { id } = useParams();
   const [foodData, setFoodData] = useState({});
   const [remainingIngredients, setRemainingIngredients] = useState(['to disable btn']);
+  const [shareLink, setShareLink] = useState(false);
 
   useEffect(() => {
     async function fetchFood() {
@@ -30,11 +36,48 @@ function InProgressRecipe({ match: { url } }) {
     fetchFood();
   }, [id, url]);
 
+  function finishRecipe(recipe) {
+    const idRecipe = recipe.idMeal || recipe.idDrink;
+    const name = recipe.strMeal || recipe.strDrink;
+    const image = recipe.strMealThumb || recipe.strDrinkThumb;
+    const { strArea, strCategory: category, strAlcoholic,
+      strTags } = recipe;
+
+    const getDate = Date();
+    const date = new Date(getDate);
+    const doneDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+
+    const recipeObject = {
+      id: idRecipe,
+      type: UrlIncludes(url, 'comidas', 'comida', 'bebida'),
+      area: strArea || '',
+      category,
+      alcoholicOrNot: strAlcoholic || '',
+      name,
+      image,
+      doneDate,
+      tags: strTags ? strTags.split(', ') : [],
+    };
+
+    const doneRecipes = GetLocalStorage('doneRecipes');
+    ToLocalStorage('doneRecipes', [...doneRecipes, recipeObject]);
+  }
+
+  function copyLink() {
+    const TIMEOUT = 3500;
+    const recipeObj = GetObjectToFavorite(foodData, url);
+
+    copy(`http://localhost:3000/${recipeObj.type}s/${recipeObj.id}`);
+
+    setShareLink(true);
+    setTimeout(() => setShareLink(false), TIMEOUT);
+  }
+
   return (
     <main className="details">
       <section className="recipe-informations">
         <header className="header-details">
-          <Button hasLink={ UrlIncludes(url, 'comidas', '/comidas', '/bebidas') }>
+          <Button onClick={ () => goBack() }>
             ↶
           </Button>
           <img
@@ -49,11 +92,17 @@ function InProgressRecipe({ match: { url } }) {
         </header>
 
         <div className="share-and-favorite">
-          <Button dataTestId="share-btn">
-            Share
+          <Button
+            onClick={ copyLink }
+            src={ ShareBtn }
+            dataTestId="share-btn"
+          >
+            { shareLink
+              ? 'Link copiado!' : <img src={ ShareBtn } alt="Compartilhe!" /> }
           </Button>
           <BtnFavoriteRecipe
             id={ id }
+            dataTestId="favorite-btn"
             url={ url }
             foodData={ foodData }
           />
@@ -89,6 +138,7 @@ function InProgressRecipe({ match: { url } }) {
       <footer>
         <Button
           disabled={ remainingIngredients.length > 0 }
+          onClick={ () => finishRecipe(foodData) }
           dataTestId="finish-recipe-btn"
           hasLink="/receitas-feitas"
         >
@@ -101,6 +151,7 @@ function InProgressRecipe({ match: { url } }) {
 
 InProgressRecipe.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.shape(PropTypes.func).isRequired,
 };
 
 export default InProgressRecipe;

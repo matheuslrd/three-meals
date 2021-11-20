@@ -1,26 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import Header from '../Components/Header';
-import CardRecipe from '../Components/CardRecipe';
-import Footer from '../Components/Footer';
+import CardRecipe from '../../Components/CardRecipe';
+import Footer from '../../Components/Footer';
+import Header from '../../Components/Header';
 
-import { MyContext } from '../Context/MyContext';
-import requestApi from '../Services/requestApi';
+import { MyContext } from '../../Context/MyContext';
+import requestApi from '../../Services/requestApi';
 
-function MainRecipesDrinks() {
-  const { data, filterUrl, setFilterUrl, drinkCategories } = useContext(MyContext);
+function MainRecipes() {
+  const { data, filterUrl, setFilterUrl, mealCategories } = useContext(MyContext);
   const [selectedFilter, setSelectedFilter] = useState('');
   const [filters, setFilters] = useState({});
   const [recipes, setRecipes] = useState([]);
 
-  const CATEGORY_URL = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
-  const INITIAL_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  const CATEGORY_URL = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
+  const INITIAL_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
   const maxLength = 5;
   const maxIndex = 12;
 
   useEffect(() => {
-    if (!filterUrl.includes('cocktail')) {
+    if (!filterUrl.includes('meal')) {
       setFilterUrl(INITIAL_URL);
     }
   }, [filterUrl, setFilterUrl]);
@@ -33,24 +33,24 @@ function MainRecipesDrinks() {
 
   useEffect(() => {
     const categoriesArray = {};
-    if (drinkCategories.length > 0) {
-      drinkCategories.forEach((category) => {
+    if (mealCategories.length > 0) {
+      mealCategories.forEach((category) => {
         categoriesArray[category] = [];
       });
       setFilters(categoriesArray);
     }
-  }, [drinkCategories]);
+  }, [mealCategories]);
 
   async function handleFilter(category) {
     function getFilteredRecipes() {
       return requestApi(`${CATEGORY_URL}${category}`)
         .then((result) => {
-          setFilters({ ...filters, [category]: result.drinks });
-          return result.drinks;
+          setFilters({ ...filters, [category]: result.meals });
+          return result.meals;
         });
     }
 
-    let filterResult = [...data];
+    let filterResult;
     if (category === selectedFilter) {
       filterResult = [...data];
 
@@ -69,7 +69,7 @@ function MainRecipesDrinks() {
   return (
     <main className="main-recipes">
       <Header>
-        Bebidas
+        Comidas
       </Header>
       <section className="recipes-filter">
         <button
@@ -79,7 +79,7 @@ function MainRecipesDrinks() {
         >
           All
         </button>
-        { drinkCategories.length > 0 && drinkCategories.map((category, ind) => (
+        { mealCategories.length > 0 && mealCategories.map((category, ind) => (
           ind < maxLength ? (
             <button
               key={ category }
@@ -92,19 +92,19 @@ function MainRecipesDrinks() {
           ) : null
         )) }
       </section>
-
       <section className="recipes-section">
         { recipes.length > 0 && recipes.slice(0, maxIndex)
-          .map(({ idDrink, strDrink, strDrinkThumb }, index) => (
+          .map(({ idMeal, strMeal, strMealThumb }, index) => (
             <CardRecipe
-              key={ `${index}${idDrink}` }
-              pathName="/bebidas"
-              id={ idDrink }
+              key={ `${index}${idMeal}` }
+              pathName="/comidas"
+              id={ idMeal }
+              index={ index }
               testId={ `${index}-recipe-card` }
               testIdTitle={ `${index}-card-name` }
               testIdImg={ `${index}-card-img` }
-              recipeImg={ strDrinkThumb }
-              recipeName={ strDrink }
+              recipeImg={ strMealThumb }
+              recipeName={ strMeal }
             />
           )) }
       </section>
@@ -113,4 +113,4 @@ function MainRecipesDrinks() {
   );
 }
 
-export default MainRecipesDrinks;
+export default MainRecipes;

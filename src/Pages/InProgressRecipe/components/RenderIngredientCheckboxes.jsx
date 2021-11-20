@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import GetIngredients from '../Helper/GetIngredients';
-import { GetLocalStorage, ToLocalStorage } from '../Helper/ToLocalStorage';
-import UrlIncludes from '../Helper/UrlIncludes';
+import GetIngredients from '../../../Helper/GetIngredients';
+import { GetLocalStorage, ToLocalStorage } from '../../../Helper/ToLocalStorage';
+import UrlIncludes from '../../../Helper/UrlIncludes';
 
 function RenderIngredientCheckboxes({ data, url, id, setArrayState }) {
   const ingredientsToRender = GetIngredients(data);

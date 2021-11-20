@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import Footer from '../Components/Footer';
-import Header from '../Components/Header';
+import Footer from '../../Components/Footer';
+import Header from '../../Components/Header';
 
-import '../Styles/Profile.css';
+import './styles/Profile.css';
 
-import Button from '../Components/Button';
+import Button from '../../Components/Button';
 
-import { GetLocalStorage } from '../Helper/ToLocalStorage';
+import { GetLocalStorage } from '../../Helper/ToLocalStorage';
 
 function Profile() {
   const [email, setEmail] = useState();
