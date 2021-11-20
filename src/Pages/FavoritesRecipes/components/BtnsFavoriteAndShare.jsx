@@ -56,7 +56,7 @@ export default function BtnsFavoriteAndShare({ index, id, setFavoritesRecipes, t
 
 BtnsFavoriteAndShare.propTypes = {
   id: PropTypes.string.isRequired,
-  index: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
   setFavoritesRecipes: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
 };
