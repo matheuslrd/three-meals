@@ -11,9 +11,10 @@ function VideoIframe({ data }) {
 
   return (
     <iframe
+      className="video"
       data-testid="video"
-      width="350"
-      height="205"
+      width="360"
+      height="200"
       src={ `https://www.youtube.com/embed/${getVideoUrl()}` }
       title="YouTube recipe video player"
       frameBorder="0"

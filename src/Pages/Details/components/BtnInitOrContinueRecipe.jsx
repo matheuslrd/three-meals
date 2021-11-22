@@ -44,7 +44,7 @@ function BtnInitOrContinueRecipe({ id, url, ingredients }) {
               ? `/comidas/${id}/in-progress`
               : `/bebidas/${id}/in-progress` }
           >
-            Continuar Receita
+            Continue Recipe
           </Button>)
         : (
           <Button

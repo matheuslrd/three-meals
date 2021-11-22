@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import copy from 'clipboard-copy';
 
+import { BiArrowBack } from 'react-icons/bi';
 import ShareBtn from '../../images/shareIcon.svg';
 
 import BtnFavoriteRecipe from '../Details/components/BtnFavoriteRecipe';
@@ -13,6 +14,8 @@ import requestApi from '../../Services/requestApi';
 import UrlIncludes from '../../Helper/UrlIncludes';
 import { ToLocalStorage, GetLocalStorage } from '../../Helper/ToLocalStorage';
 import GetObjectToFavorite from '../../Helper/GetObjectToFavorite';
+
+import '../Details/styles/Details.css';
 
 function InProgressRecipe({ match: { url }, history: { goBack } }) {
   const { id } = useParams();
@@ -76,67 +79,83 @@ function InProgressRecipe({ match: { url }, history: { goBack } }) {
   return (
     <main className="details">
       <section className="recipe-informations">
-        <header className="header-details">
-          <Button onClick={ () => goBack() }>
-            ↶
-          </Button>
+        <div className="header-container">
           <img
             className="foodPhoto"
             src={ foodData.strMealThumb || foodData.strDrinkThumb }
             data-testid="recipe-photo"
             alt="food/drinks"
           />
-          <h1 data-testid="recipe-title">
-            { foodData.strMeal || foodData.strDrink }
-          </h1>
-        </header>
-
-        <div className="share-and-favorite">
           <Button
-            onClick={ copyLink }
-            src={ ShareBtn }
-            dataTestId="share-btn"
+            className="back-btn"
+            onClick={ () => goBack() }
           >
-            { shareLink
-              ? 'Link copiado!' : <img src={ ShareBtn } alt="Compartilhe!" /> }
+            <BiArrowBack size="2rem" />
           </Button>
-          <BtnFavoriteRecipe
-            id={ id }
-            dataTestId="favorite-btn"
-            url={ url }
-            foodData={ foodData }
-          />
         </div>
-
+        <div className="button-container">
+          <header className="header-details">
+            <h1 className="recipe-title" data-testid="recipe-title">
+              { foodData.strMeal || foodData.strDrink }
+            </h1>
+          </header>
+          <div>
+            <Button
+              className="share-btn"
+              onClick={ copyLink }
+              src={ ShareBtn }
+              dataTestId="share-btn"
+            >
+              { shareLink
+                ? 'Link copiado!' : <img src={ ShareBtn } alt="Compartilhe!" /> }
+            </Button>
+            <BtnFavoriteRecipe
+              className="favorite-btn"
+              id={ id }
+              dataTestId="favorite-btn"
+              url={ url }
+              foodData={ foodData }
+            />
+          </div>
+        </div>
         <div className="is-alcoholic">
           {
             (foodData.strAlcoholic) ? (
               <>
-                <p>{ foodData.strCategory }</p>
+                <p className="category">{ foodData.strCategory }</p>
                 <p data-testid="recipe-category">{foodData.strAlcoholic}</p>
               </>
             )
-              : <p data-testid="recipe-category">{foodData.strCategory}</p>
+              : (
+                <p
+                  className="category"
+                  data-testid="recipe-category"
+                >
+                  {foodData.strCategory}
+                </p>
+              )
           }
         </div>
-
-        <ol>
+        <h1 className="title-container">Ingredients:</h1>
+        <div className="ingredients">
           <RenderIngredientCheckboxes
             data={ foodData }
             url={ url }
             id={ id }
             setArrayState={ setRemainingIngredients }
           />
-        </ol>
-
-        <p data-testid="instructions">
-          Instructions:
-          {foodData.strInstructions}
-        </p>
+        </div>
+        <h1 className="title-container">Instructions:</h1>
+        <div className="instructions-container">
+          <p data-testid="instructions">
+            {foodData.strInstructions}
+          </p>
+        </div>
       </section>
 
       <footer>
         <Button
+          className="finish-btn"
           disabled={ remainingIngredients.length > 0 }
           onClick={ () => finishRecipe(foodData) }
           dataTestId="finish-recipe-btn"

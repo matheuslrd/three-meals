@@ -1,12 +1,52 @@
 .header {
-  background-color: lightgray;
+  align-items: center;
+  background-color: #3F6473;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 2%;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 3;
 }
 
-.container-icons {
+.header-content {
+  align-items: center;
+  color: white;
+  font-size: calc(1em + 2vmin);
   display: flex;
-  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding-right: calc(12% + 2vmin);
+  width: 80%;
+}
+
+.header-content h1 {
+font-weight: bold;
+letter-spacing: 1px;
+text-align: center;
+}
+
+.search-container {
+  margin-left: 8%;
+}
+
+.header .search-input {
+  padding: 8px 3px;
+}
+
+.header .search-input label{
+  margin: 5px 8px;
+}
+
+.header .search-input label input {
+  margin-left: 5px;
+}
+
+.search-btn {
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0.3px 0.5px 3px 0.7px black;
+  padding: 3px 5px;
 }
