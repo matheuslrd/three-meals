@@ -9,7 +9,7 @@ import Button from '../../../Components/Button';
 import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../../images/blackHeartIcon.svg';
 
-function BtnFavoriteRecipe({ id, dataTestId, url, foodData }) {
+function BtnFavoriteRecipe({ id, dataTestId, url, foodData, className }) {
   const [iconFavorite, setIconFavorite] = useState(false);
 
   useEffect(() => {
@@ -44,6 +44,7 @@ function BtnFavoriteRecipe({ id, dataTestId, url, foodData }) {
     <Button
       dataTestId={ dataTestId }
       onClick={ addToFavorite }
+      className={ className }
       src={ iconFavorite ? blackHeartIcon : whiteHeartIcon }
     >
       <img src={ iconFavorite ? blackHeartIcon : whiteHeartIcon } alt="Favorite Icon" />
@@ -54,6 +55,7 @@ function BtnFavoriteRecipe({ id, dataTestId, url, foodData }) {
 BtnFavoriteRecipe.propTypes = {
   id: PropTypes.string.isRequired,
   dataTestId: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   foodData: PropTypes.objectOf(PropTypes.any).isRequired,
 };

@@ -1,16 +1,31 @@
 .login {
+  background-size: 100% 100%;
+  background-image: url(https://r1.ilikewallpaper.net/iphone-x-wallpapers/download/37743/Food-love-red-table-iphone-x-wallpaper-ilikewallpaper_com.jpg);
   align-items: center;
   display: flex;
   justify-content: center;
+  height: 100%;
 }
 
 .login-form {
   align-items: center;
-  border-radius: 8px;
-  box-shadow: 0 0 1.5px black;
+  border-radius: 10%;
+  box-shadow: 0 0 5px black;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 15%;
   padding: 15px;
+}
+
+.UilHome {
+  margin-bottom: 10px;
+}
+
+.button {
+  margin-bottom: 10px;
+}
+
+.login-container {
+  border-radius: 10%;
+  background-color: #F2F2F2;
 }

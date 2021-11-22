@@ -16,40 +16,35 @@ function Header({ children, disabledSearch }) {
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   const btnSearch = () => (
-    <section className="search-container">
-      <Button
-        dataTestId="search-top-btn"
-        display={ disabledSearch }
-        src={ searchIcon }
-        onClick={ () => setShowSearchBar(!showSearchBar) }
-      >
-        <img src={ searchIcon } alt="Profile Icon" />
-      </Button>
-    </section>
+    <Button
+      className="search-container"
+      dataTestId="search-top-btn"
+      display={ disabledSearch }
+      src={ searchIcon }
+      onClick={ () => setShowSearchBar(!showSearchBar) }
+    >
+      <img src={ searchIcon } alt="Profile Icon" />
+    </Button>
   );
 
   return (
     <header className="header">
       { redirectProfile && <Redirect to="/perfil" /> }
 
-      <div className="container-icons">
-        <section className="perfil-container">
-          <Button
-            dataTestId="profile-top-btn"
-            onClick={ () => setRedirectProfile(true) }
-            src={ profileIcon }
-          >
-            <img src={ profileIcon } alt="Profile Icon" />
-          </Button>
-        </section>
-
-        <section className="title-page-container">
-          <h1 className="title-page" data-testid="page-title">
-            { children }
-          </h1>
-        </section>
-        { !disabledSearch && btnSearch() }
+      <div className="header-content">
+        <Button
+          className="profile-container"
+          dataTestId="profile-top-btn"
+          onClick={ () => setRedirectProfile(true) }
+          src={ profileIcon }
+        >
+          <img src={ profileIcon } alt="Profile Icon" />
+        </Button>
+        <h1 className="title-page" data-testid="page-title">
+          { children }
+        </h1>
       </div>
+      { !disabledSearch && btnSearch() }
 
       { showSearchBar && <SearchBar textFilterPage={ children } /> }
     </header>

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import { Button } from 'reactstrap';
 
 import { MyContext } from '../../Context/MyContext';
 import DefaultInput from '../../Components/DefaultInput';
@@ -37,36 +38,44 @@ function Login() {
   return (
     <main className="login">
       { login && <Redirect to="/comidas" /> }
-      <form className="login-form">
-        <h4>Login</h4>
-        <DefaultInput
-          type="text"
-          id="email-input"
-          name="email"
-          text="Email: "
-          value={ email }
-          onChange={ handleChange }
-          placeholder="email@example.com"
-          className="login-input"
-        />
-        <DefaultInput
-          type="password"
-          id="password-input"
-          name="password"
-          text="Password: "
-          value={ password }
-          onChange={ handleChange }
-          className="login-input"
-        />
-        <button
-          type="button"
-          data-testid="login-submit-btn"
-          disabled={ !validation() }
-          onClick={ handleClick }
-        >
-          Submit
-        </button>
-      </form>
+      <div className="login-container">
+        <form className="login-form">
+          <h4>Login</h4>
+          <DefaultInput
+            type="text"
+            id="email-input"
+            name="email"
+            value={ email }
+            onChange={ handleChange }
+            placeholder="Email"
+            className="login-input"
+          />
+          <DefaultInput
+            type="password"
+            id="password-input"
+            name="password"
+            value={ password }
+            onChange={ handleChange }
+            placeholder="Password"
+            className="login-input"
+          />
+          <p>Forgot Password?</p>
+          <Button
+            color="primary"
+            className="button"
+            type="button"
+            data-testid="login-submit-btn"
+            disabled={ !validation() }
+            onClick={ handleClick }
+          >
+            Log In
+          </Button>
+          <p>
+            Don't have an account?
+            <a href="#Header">Signup Now.</a>
+          </p>
+        </form>
+      </div>
     </main>
   );
 }

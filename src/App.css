@@ -1,4 +1,5 @@
 * {
+  background-color: #F0F0F2;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -27,8 +28,11 @@
 }
 
 .recipes-filter button {
-  background-color: lightgray;
-  margin: 3px;
+  background-color: lightgrey;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0.3px 0.5px 3px 0.7px black;
+  margin: 1em 0 0 1em;
   padding: 3px 5px;
 }
 
@@ -75,7 +79,15 @@
 }
 
 .explorer-btn {
+  background-color: #A64F03;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0.5px 0.8px 5px 0.3px black;
+  color: white;
+  font-size: calc(1em + 2vmin);
+  font-weight: bold;
   margin-top: 20%;
+  padding: 16px;
 }
 
 .ingredients-container {

@@ -47,8 +47,8 @@ function Carousel({ url }) {
 
   return (
     <div className="carousel-container">
-      <h2 data-testid="0-recomendation-title">
-        Recomendadas
+      <h2 className="title-container" data-testid="0-recomendation-title">
+        Recommended:
       </h2>
       <div className="container-cards">
         { recommendedData.length > 0 ? showRecommendedCards() : '...loading' }
